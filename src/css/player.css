@@ -21,7 +21,3 @@
   border-radius: 5px;
   color: #212529;
 }
-
-.spell-icon.disabled{
-  filter: grayscale(100%);
-}

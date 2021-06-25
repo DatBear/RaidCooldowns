@@ -21,12 +21,14 @@ export class WowSpec {
   name: string;
   spells: WowSpell[];
   talents: WowTalent[];
+  specId: number;
   isHealer: boolean;
 
-  constructor(name: string, spells: WowSpell[], talents: WowTalent[], isHealer = true) {
+  constructor(name: string, spells: WowSpell[], talents: WowTalent[], specId: number = 0, isHealer = true) {
     this.name = name;
     this.spells = spells;
     this.talents = talents;
+    this.specId = specId;
     this.isHealer = isHealer;
   }
 }
@@ -108,6 +110,18 @@ export class WowPlayer {
   }
 }
 
+const SpecIds = {
+  RestoDruid: 12,
+  RestoShaman: 47,
+  HolyPaladin: 29,
+  HolyPriest: 36,
+  Mistweaver: 25,
+  Disc: 35,
+  DemonHunter: 8,
+  Warrior: 57,
+  DeathKnight: 3,
+};
+
 const SpellIds = {
   //druid
   Tranquility: 157982,
@@ -167,7 +181,7 @@ let rdruidTalents = [
   }),
 ];
 
-let druidSpecs = [new WowSpec('Restoration', rdruidSpells, rdruidTalents)];
+let druidSpecs = [new WowSpec('Restoration', rdruidSpells, rdruidTalents, SpecIds.RestoDruid)];
 const druid = new WowClass('Druid', druidSpecs);
 
 let rshamanSpells = [
@@ -180,7 +194,7 @@ let rshamanTalents = [
     spell.isEnabled = enabled;
   }),
 ];
-let shamanSpecs = [new WowSpec('Restoration', rshamanSpells, rshamanTalents)];
+let shamanSpecs = [new WowSpec('Restoration', rshamanSpells, rshamanTalents, SpecIds.RestoShaman)];
 const shaman = new WowClass('Shaman', shamanSpecs);
 
 let hpriestSpells = [
@@ -201,8 +215,8 @@ let dpriestSpells = [
 ];
 
 let priestSpecs = [
-  new WowSpec('Holy', hpriestSpells, hpriestTalents),
-  new WowSpec('Discipline', dpriestSpells, []),
+  new WowSpec('Holy', hpriestSpells, hpriestTalents, SpecIds.HolyPriest),
+  new WowSpec('Discipline', dpriestSpells, [], SpecIds.Disc),
 ];
 const priest = new WowClass('Priest', priestSpecs);
 
@@ -210,44 +224,44 @@ let monkSpells = [
   new WowSpell('Revival', 180, SpellIds.Revival),
 ];
 let monkSpecs = [
-  new WowSpec('Mistweaver', monkSpells, []),
-]
+  new WowSpec('Mistweaver', monkSpells, [], SpecIds.Mistweaver),
+];
 const monk = new WowClass('Monk', monkSpecs);
 
 let hpaladinSpells = [
   new WowSpell('AM', 180, SpellIds.AuraMastery),
   new WowSpell('Wings', 120, SpellIds.AvengingWrath),
   new WowSpell('Ashen Hallow', 240, SpellIds.AshenHallow, true),
-]
+];
 let hpaladinTalents = [
   new WowTalent('Venthyr', SpellIds.AshenHallow, (spell, enabled) => {
     spell.isEnabled = enabled;
   }),
-]
+];
 let paladinSpecs = [
-  new WowSpec('Holy', hpaladinSpells, hpaladinTalents),
-]
+  new WowSpec('Holy', hpaladinSpells, hpaladinTalents, SpecIds.HolyPaladin),
+];
 const paladin = new WowClass('Paladin', paladinSpecs);
 
 
 let havocdhSpells = [
   new WowSpell('Darkness', 180, SpellIds.Darkness, false, false)
 ];
-let dhSpecs = [new WowSpec('Havoc', havocdhSpells, [], false)]
+let dhSpecs = [new WowSpec('Havoc', havocdhSpells, [], SpecIds.DemonHunter, false)]
 const dh = new WowClass('Demon Hunter', dhSpecs);
 
 let warriorSpells = [
   new WowSpell('Rally', 180, SpellIds.RallyingCry, false, false)
-]
+];
 let warriorSpecs = [
-  new WowSpec('Any', warriorSpells, [], false)
-]
+  new WowSpec('Any', warriorSpells, [], SpecIds.Warrior, false)
+];
 const warrior = new WowClass('Warrior', warriorSpecs);
 
 let dkSpells = [
   new WowSpell('AMZ', 180, SpellIds.AntiMagicZone, false, false)
-]
-let dkSpecs = [new WowSpec('Any', dkSpells, [], false)]
+];
+let dkSpecs = [new WowSpec('Any', dkSpells, [], SpecIds.DeathKnight, false)]
 const dk = new WowClass('Death Knight', dkSpecs);
 
 //setup colors for exorsus...

@@ -62,10 +62,20 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
     }
   }
 
-  selectSpec(specName: string) {
+  selectSpec(className: string, specName: string) {
     return () => {
-      this.setState({ selectedSpec: specName });
+      if(className == null) return;
+      this.setState({ 
+        selectedClass: className,
+        selectedSpec: specName
+      });
+
+      
     }
+  }
+
+  componentDidUpdate(){
+    (window as any).$WowheadPower.refreshLinks(true);
   }
 
   render() {
@@ -78,35 +88,32 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
       <div className='col-4 col-sm-2'>
         <input type='text' value={this.state.name} onChange={this.handleInputChange('name')} placeholder='Name' className='player-name form-control form-control-sm' />
       </div>
-      {this.state.name && <div className='col-12'>
-        Class:
-        {WowClasses.map(x => {
-          return <button key={x.name} className={`btn btn-${x.cssName} class${x.name === currentClass?.name ? ' selected': ''}`} onClick={this.selectClass(x.name)} >{x.name}</button>
-        })}
-      </div>}
-      <div className='col-12'>
-        {currentClass &&
-          <>
-          <span>Spec:</span>
-          {currentClass.specs.map(x => {
-            return <button key={x.name} className={`btn btn-${currentClass?.cssName} spec ${currentClass?.cssName}${x.name === currentSpec?.name ? ' selected' : ''}`} onClick={this.selectSpec(x.name)}>{x.name}</button>
-          })}
-          </>
-        }
-      </div>
       
       <div className='col-12'>
+        {this.state.name && WowClasses.map((cls, idx) => {
+          return cls.specs.map((spec, idx) => {
+            let enabled = cls.name == currentClass?.name && spec.name == currentSpec?.name;
+            let className = `spec-icon ${enabled ? 'enabled' : 'disabled'}`;
+            return <span key={idx} className={className} style={{backgroundPositionX: `${-36 * spec.specId}px`}} onClick={this.selectSpec(cls.name, spec.name)}></span>
+          });
+        })}
+      </div>
+
+      <div className='col-12'>
         {currentTalents && currentTalents.length > 0 ?
-          <div>
-            <span>Talents:</span>
+          <>
             {currentTalents.map(x => {
-              return <button key={x.spellId} onClick={e => { x.toggle.bind(x)(); this.forceUpdate(); }} className={' btn btn-sm talent' + (x.isEnabled ? ' btn-success' : ' btn-danger')}>{x.name}</button>
+              let wowheadData = `spell=${x.spellId}`;
+              let className = `spell-icon ${x.isEnabled ? 'enabled' : 'disabled'}`;
+              return <a key={x.spellId} onClick={e => { x.toggle.bind(x)(); this.forceUpdate(); }} href='#' className={className} data-wowhead={wowheadData} data-wh-icon-size='medium'></a>
+              return <button key={x.spellId} onClick={e => { x.toggle.bind(x)(); this.forceUpdate(); }} className={' btn btn-sm talent' + (x.isEnabled ? ' btn-success' : ' btn-danger')}>{x.name}</button>;
             })}
-          </div> : '' }
+          </> : '' }
       </div>
       <div className='col-12'>
         {currentSpec && <div><button onClick={e => this.addPlayer()} className='btn btn-sm btn-success'>Add Player</button></div>}
       </div>
+      
     </div>
   }
 }
