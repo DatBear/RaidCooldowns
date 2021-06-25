@@ -58,8 +58,8 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
           </tr>
         </thead>
         <tbody>
-          {this.props.players.map(p => {
-            return <tr key={p.name} className={`player-row text-${p.wowClass.cssName}`}>
+          {this.props.players.map((p, idx) => {
+            return <tr key={idx} className={`player-row text-${p.wowClass.cssName}`}>
               <td>{p.name}</td>
               <td>
                 {p.wowTalents.map(t => {

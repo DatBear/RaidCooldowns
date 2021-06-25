@@ -115,12 +115,12 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
         var spells = this.props.timeSlot.spells.filter(x => x.player?.column === idx && x.isHeal);
         var spellNames = spells.map(x => x.name).join('+');
         return <td key={idx}>
-          <button className={`text-${player?.wowClass.cssName}`} onClick={this.selectSpell(spells.find(x => x !== undefined))}>{spellNames}</button>
+          <a className={`text-${player?.wowClass.cssName}`} onClick={this.selectSpell(spells.find(x => x !== undefined))}>{spellNames}</a>
         </td>;
       })}
       <td>
-        {this.props.timeSlot.spells.filter(x => !x.isHeal).map(x => {
-          return <a href='#' key={'' + x.player?.name + x.spellId} className={`text-${x.player?.wowClass.cssName}`} onClick={this.selectSpell(x)}>{x.player?.name}-{x.name}</a>
+        {this.props.timeSlot.spells.filter(x => !x.isHeal).map((x, idx) => {
+          return <a href='#' key={idx} className={`text-${x.player?.wowClass.cssName}`} onClick={this.selectSpell(x)}>{x.player?.name}-{x.name}</a>
         })}
       </td>
       {this.props.selectedSpell != null && <td onClick={this.addSelectedSpell} className={`add-button ${this.props.selectedSpellUsable ? 'usable' : 'unusable'}`}>{this.hasSelectedSpell() ? '-' : '+'}</td>}
