@@ -44,11 +44,6 @@ export class WowTalent {
     this.spellId = spellId;
     this.apply = apply.bind(this);
   }
-
-  toggle() {
-    this.isEnabled = !this.isEnabled;
-    console.log(this.name, this.isEnabled);
-  }
 }
 
 export class WowSpell {

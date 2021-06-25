@@ -26,6 +26,7 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
     this.addPlayer = this.addPlayer.bind(this);
     this.selectClass = this.selectClass.bind(this);
     this.selectSpec = this.selectSpec.bind(this);
+    this.toggleTalent = this.toggleTalent.bind(this);
   }
 
   addPlayer() {
@@ -74,6 +75,10 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
     }
   }
 
+  toggleTalent(talent: WowTalent){
+    talent.isEnabled = !talent.isEnabled;
+  }
+
   componentDidUpdate(){
     (window as any).$WowheadPower.refreshLinks(true);
   }
@@ -105,8 +110,7 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
             {currentTalents.map(x => {
               let wowheadData = `spell=${x.spellId}`;
               let className = `spell-icon ${x.isEnabled ? 'enabled' : 'disabled'}`;
-              return <a key={x.spellId} onClick={e => { x.toggle.bind(x)(); this.forceUpdate(); }} href='#' className={className} data-wowhead={wowheadData} data-wh-icon-size='medium'></a>
-              return <button key={x.spellId} onClick={e => { x.toggle.bind(x)(); this.forceUpdate(); }} className={' btn btn-sm talent' + (x.isEnabled ? ' btn-success' : ' btn-danger')}>{x.name}</button>;
+              return <a key={x.spellId} onClick={e => { this.toggleTalent(x); this.forceUpdate(); }} href='#' className={className} data-wowhead={wowheadData} data-wh-icon-size='medium'></a>
             })}
           </> : '' }
       </div>
