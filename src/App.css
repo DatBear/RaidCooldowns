@@ -1,38 +1,380 @@
-.App {
-  text-align: center;
+:root {
+  --deathknight: 196,31,59;
+  --demonhunter: 163,48,201;
+  --druid: 255,125,10 ;
+  --hunter: 169,210,113 ;
+  --mage: 64,199,235;
+  --monk: 0,255,150;
+  --paladin: 245,140,186;
+  --priest: 255,255,255 ;
+  --rogue: 255,245,105;
+  --shaman: 0,112,222;
+  --warlock: 135,135,237 ;
+  --warrior: 199,156,110;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+body{
+  padding: 20px;
+  background-color:#343a40;
+  color: #F2F6F9;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a{
+  text-decoration:none;
+  color: inherit;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+a:focus, a:hover {
+  outline: 0;
+  color:inherit;
+  text-decoration: none;
 }
 
-.App-link {
-  color: #61dafb;
+button{
+  border: 1px solid #000000 inset;
+  background-color: #333333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+
+.class {
+  padding: 4px 10px;
+  margin: 5px;
+}
+
+.spec {
+  padding: 4px 10px;
+  margin: 5px;
+}
+
+.talent {
+  padding: 4px 10px;
+  margin: 5px;
+}
+
+.talent.enabled {
+  background-color: green;
+}
+
+.talent.disabled {
+  background-color: red;
+}
+
+.add-player {
+  background-color: green;
+  padding: 5px 10px;
+}
+
+.class.selected{
+  background-color: green;
+}
+
+.spec.selected{
+  background-color: green;
+}
+
+.player-th{
+  font-weight: bold;
+  padding: 0 20px;
+}
+
+.player-td {
+  text-align:center;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 2px #000000;
+}
+
+.rounded {
+  border-radius: 5px;
+}
+
+.btn:hover{
+  filter: brightness(75%);
+}
+
+.btn-link{
+  color: inherit;
+}
+
+.btn-link:hover, .btn-link:focus{
+  color: inherit;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+table .btn-sm:not(.btn-link){
+  font-weight: bold;
+}
+
+table .btn-sm{
+  padding: .1rem .5rem;
+}
+
+.table.table-sm tbody td{
+  padding: .05rem .2rem;
+}
+
+
+table .timeslot-time{
+  width: 50px;
+}
+
+table .timeslot-name{
+  width: 100px;
+}
+
+.btn-deathknight {
+  background-color: rgb(var(--deathknight));
+}
+
+.btn-demonhunter {
+  background-color: rgb(var(--demonhunter));
+}
+
+.btn-druid {
+  background-color: rgb(var(--druid));
+}
+
+.btn-hunter {
+  background-color: rgb(var(--hunter));
+}
+
+.btn-mage {
+  background-color: rgb(var(--mage));
+}
+
+.btn-monk {
+  background-color: rgb(var(--monk));
+}
+
+.btn-paladin {
+  background-color: rgb(var(--paladin));
+}
+
+.btn-priest {
+  background-color: rgb(var(--priest));
+}
+
+.btn-rogue {
+  background-color: rgb(var(--rogue));
+}
+
+.btn-shaman {
+  background-color: rgb(var(--shaman));
+}
+
+.btn-warlock {
+  background-color: rgb(var(--warlock));
+}
+
+.btn-warrior {
+  background-color: rgb(var(--warrior));
+}
+
+
+
+.btn-deathknight:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--deathknight), .25);
+}
+
+.btn-demonhunter:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--demonhunter), .25);
+}
+
+.btn-druid:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--druid), .25);
+}
+
+.btn-hunter:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--hunter), .25);
+}
+
+.btn-mage:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--mage), .25);
+}
+
+.btn-monk:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--monk), .25);
+}
+
+.btn-paladin:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--paladin), .25);
+}
+
+.btn-priest:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--priest), .25);
+}
+
+.btn-rogue:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--rogue), .25);
+}
+
+.btn-shaman:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--shaman), .25);
+}
+
+.btn-warlock:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--warlock), .25);
+}
+
+.btn-warrior:focus{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--warrior), .25);
+}
+
+
+.text-deathknight {
+  color: rgb(var(--deathknight));
+}
+
+.text-demonhunter {
+  color: rgb(var(--demonhunter));
+}
+
+.text-druid {
+  color: rgb(var(--druid)) !important;
+}
+
+.text-hunter {
+  color: rgb(var(--hunter));
+}
+
+.text-mage {
+  color: rgb(var(--mage));
+}
+
+.text-monk {
+  color: rgb(var(--monk));
+}
+
+.text-paladin {
+  color: rgb(var(--paladin));
+}
+
+.text-priest {
+  color: rgb(var(--priest));
+  text-shadow: 1px 1px 2px #000000;
+}
+
+.text-rogue {
+  color: rgb(var(--rogue));
+}
+
+.text-shaman {
+  color: rgb(var(--shaman));
+}
+
+.text-warlock {
+  color: rgb(var(--warlock));
+}
+
+.text-warrior {
+  color: rgb(var(--warrior));
+}
+
+
+
+.border-deathknight{
+  border: 1px solid rgb(var(--deathknight));
+}
+
+.border-demonhunter{
+  border: 1px solid rgb(var(--demonhunter));
+}
+
+.border-druid{
+  border: 1px solid rgb(var(--druid));
+}
+
+.border-hunter{
+  border: 1px solid rgb(var(--hunter));
+}
+
+.border-mage{
+  border: 1px solid rgb(var(--mage));
+}
+
+.border-monk{
+  border: 1px solid rgb(var(--monk));
+}
+
+.border-paladin{
+  border: 1px solid rgb(var(--paladin));
+}
+
+.border-priest{
+  border: 1px solid rgb(var(--priest));
+}
+
+.border-rogue{
+  border: 1px solid rgb(var(--rogue));
+}
+
+.border-shaman{
+  border: 1px solid rgb(var(--shaman));
+}
+
+.border-warlock{
+  border: 1px solid rgb(var(--warlock));
+}
+
+.border-warrior{
+  border: 1px solid rgb(var(--warrior));
+}
+
+
+/*
+deathknight
+demonhunter
+druid
+hunter
+mage
+monk
+paladin
+priest
+rogue
+shaman
+warlock
+warrior
+*/
+
+.add-button{
+  cursor: pointer;
+  text-align:center;
+}
+
+.add-button.usable{
+  background-color: rgb(40, 167, 69);
+}
+
+.add-button.unusable{
+  background-color: rgb(220, 53, 69);
+}
+
+
+.modal {
+  color: var(--gray-dark);
+}
+
+.note-area{
+  width: 100%;
+  height: 50vh;
 }

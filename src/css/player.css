@@ -1,0 +1,27 @@
+.player-container{
+  display:block;
+  float:none;
+}
+
+.player {
+  text-align: center;
+  display:inline-block;
+  margin:5px;
+  padding: 5px;
+}
+
+.spell {
+  text-align: center;
+  padding: 3px 7px;
+  margin: 5px;
+}
+
+.spell.selected {
+  padding: 3px 7px;
+  border-radius: 5px;
+  color: #212529;
+}
+
+.spell-icon.disabled{
+  filter: grayscale(100%);
+}
