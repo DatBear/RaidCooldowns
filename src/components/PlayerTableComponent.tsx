@@ -61,7 +61,7 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
           {this.props.players.map((p, idx) => {
             return <tr key={idx} className={`player-row text-${p.wowClass.cssName}`}>
               <td>{p.name}</td>
-              <td>
+              <td style={{textAlign: 'center'}}>
                 {p.wowTalents.map(t => {
                   let wowheadData = `spell=${t.spellId}`;
                   let className = `spell-icon ${t.isEnabled ? 'enabled' : 'disabled'}`;

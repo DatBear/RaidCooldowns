@@ -34,6 +34,7 @@ export class WowSpec {
 }
 
 export class WowTalent {
+  //don't add functions to this, it's shallow copied when loading rosters
   name: string;
   spellId: number;
   apply: (spell: WowSpell, enabled: boolean) => void;

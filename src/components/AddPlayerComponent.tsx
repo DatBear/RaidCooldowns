@@ -70,8 +70,6 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
         selectedClass: className,
         selectedSpec: specName
       });
-
-      
     }
   }
 

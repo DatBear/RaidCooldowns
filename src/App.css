@@ -386,6 +386,7 @@ warrior
   height:36px;
   display:inline-block;
   cursor: pointer;
+  margin: 5px;
 }
 
 .spec-icon.disabled{

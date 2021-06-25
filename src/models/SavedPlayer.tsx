@@ -20,9 +20,10 @@ class SavedPlayer {
   toPlayer() {
     let wowClass = WowClasses.find(x => x.name === this.className);
     let spec = wowClass?.specs.find(x => x.name === this.specName);
-    let talents = spec?.talents.map(x => {
-      x.isEnabled = this.talentIds.find(t => t === x.spellId) != null;
-      return x;
+    let talents = spec?.talents.map(x =>  Object.assign({}, x))//clone talents when loading so toggling one talent doesn't affect others
+      .map(x => {
+        x.isEnabled = this.talentIds.find(t => t === x.spellId) != null;
+        return x;
     });
 
     if(wowClass != null && spec != null && talents != null){
