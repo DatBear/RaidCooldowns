@@ -120,7 +120,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
       })}
       <td>
         {this.props.timeSlot.spells.filter(x => !x.isHeal).map(x => {
-          return <a href='#' key={'' + x.player?.name + x.spellId} className={`text-${x.player?.wowClass.cssName}`}>{x.player?.name}-{x.name}</a>
+          return <a href='#' key={'' + x.player?.name + x.spellId} className={`text-${x.player?.wowClass.cssName}`} onClick={this.selectSpell(x)}>{x.player?.name}-{x.name}</a>
         })}
       </td>
       {this.props.selectedSpell != null && <td onClick={this.addSelectedSpell} className={`add-button ${this.props.selectedSpellUsable ? 'usable' : 'unusable'}`}>{this.hasSelectedSpell() ? '-' : '+'}</td>}
