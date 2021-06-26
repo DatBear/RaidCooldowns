@@ -80,30 +80,32 @@ class LoadFightComponent extends BaseComponent<LoadFightProps, LoadFightState> {
 
   render(){
     return <div className='row'>
-      <div className='col-12'>
-        <h5>Saved Fights:</h5>
-      </div>
-      <div className='col-12'>
-        <table style={{width: '100%', marginLeft: '20px' }}>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Options</th>
-          </tr>
-          {this.state.fights.map(x => {
-            let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
-            return <tr key={x.name} className='saved-fight'>
-              <td>{x.name}</td>
-              <td>{x.players.map(p => <span key={p.name} className={`text-${p.classCssName}`}>{p.name},</span>)}{x.timeSlots.length} timings, {timeRange}</td>
-              <td>
-                <button onClick={this.loadFight(x)} className='btn btn-sm link-success'>Load</button>
-                <button onClick={this.removeFight(x)} className='btn btn-sm link-danger'>x</button>
-              </td>
+      {this.state.fights.length > 0 && <>
+        <div className='col-12'>
+          <h5>Saved Fights:</h5>
+        </div>
+        <div className='col-12'>
+          <table style={{width: '100%', marginLeft: '20px' }}>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Options</th>
             </tr>
-          })}
-        </table>
-        
-      </div>
+            {this.state.fights.map(x => {
+              let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
+              return <tr key={x.name} className='saved-fight'>
+                <td>{x.name}</td>
+                <td>{x.players.map(p => <span key={p.name} className={`text-${p.classCssName}`}>{p.name},</span>)}{x.timeSlots.length} timings, {timeRange}</td>
+                <td>
+                  <button onClick={this.loadFight(x)} className='btn btn-sm link-success'>Load</button>
+                  <button onClick={this.removeFight(x)} className='btn btn-sm link-danger'>x</button>
+                </td>
+              </tr>
+            })}
+          </table>
+        </div>
+      </>}
+      
       <div className='col-12'>
         <h5>Save Current Fight:</h5>
       </div>
@@ -111,7 +113,7 @@ class LoadFightComponent extends BaseComponent<LoadFightProps, LoadFightState> {
         <input value={this.state.fightSaveName} onChange={this.handleInputChange('fightSaveName')} placeholder='Name' className='form-control' />
       </div>
       <div className='col-4'>
-        {this.state.fightSaveName && <button onClick={this.saveCurrentFight} className='btn btn-success'>Save</button>}
+        {this.state.fightSaveName && <button onClick={this.saveCurrentFight} className='btn link-success'>Save</button>}
       </div>
     </div>
   }

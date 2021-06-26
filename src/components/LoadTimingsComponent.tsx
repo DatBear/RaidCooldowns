@@ -69,30 +69,33 @@ class LoadTimingsComponent extends BaseComponent<LoadTimingsProps, LoadTimingsSt
 
   render() {
     return <div className='row'>
-      <div className='col-12'>
-        <h5>Saved Timings:</h5>
-      </div>
-      <div className='col-12'>
-        <table style={{width: '100%', marginLeft: '20px' }}>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Options</th>
-          </tr>
-          {this.state.timings.map(x => {
-            let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
-            return <tr key={x.name}>
-              <td>{x.name}</td>
-              <td>{x.timeSlots.length} timings, {timeRange}</td>
-              <td>
-                <button onClick={this.loadTimings(x)} className='btn btn-sm link-success'>Load</button>
-                <button onClick={this.removeTimings(x)} className='btn btn-sm link-danger'>x</button>
-              </td>
+      {this.state.timings.length > 0 && <>
+        <div className='col-12'>
+          <h5>Saved Timings:</h5>
+        </div>
+        <div className='col-12'>
+          <table style={{width: '100%', marginLeft: '20px' }}>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Options</th>
             </tr>
-          })}
-        </table>
-        
-      </div>
+            {this.state.timings.map(x => {
+              let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
+              return <tr key={x.name}>
+                <td>{x.name}</td>
+                <td>{x.timeSlots.length} timings, {timeRange}</td>
+                <td>
+                  <button onClick={this.loadTimings(x)} className='btn btn-sm link-success'>Load</button>
+                  <button onClick={this.removeTimings(x)} className='btn btn-sm link-danger'>x</button>
+                </td>
+              </tr>
+            })}
+          </table>
+        </div>
+      </>}
+      
+      
       <div className='col-12'>
         <h5>Save Current Timings:</h5>
       </div>
@@ -100,7 +103,7 @@ class LoadTimingsComponent extends BaseComponent<LoadTimingsProps, LoadTimingsSt
         <input value={this.state.timingsSaveName} onChange={this.handleInputChange('timingsSaveName')} placeholder='Name' className='form-control' />
       </div>
       <div className='col-4'>
-        {this.state.timingsSaveName && <button onClick={this.saveCurrentTimings} className='btn btn-success'>Save</button>}
+        {this.state.timingsSaveName && <button onClick={this.saveCurrentTimings} className='btn link-success'>Save</button>}
       </div>
     </div>
   }

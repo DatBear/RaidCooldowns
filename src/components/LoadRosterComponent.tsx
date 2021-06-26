@@ -71,30 +71,35 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
 
   render() {
     return <div className='row'>
-      <div className='col-12'>
-        <h5>Saved Rosters:</h5>
-      </div>
-      <div className='col-12'>
-        <table style={{width: '100%', marginLeft: '20px' }}>
-          <tr>
-            <th>Roster Name</th>
-            <th>Players</th>
-            <th>Options</th>
-          </tr>
-          {this.state.rosters.map((x, idx) => {
-            return <tr key={idx}>
-              <td>{x.name}</td>
-              <td>{x.players.map((p, idx_) => <><span key={idx_} className={`text-${p.classCssName}`}>{p.name}</span>{idx_ < x.players.length-1 ? ',' : ''} </>)}</td>
-              <td>
-                <a onClick={this.loadRoster(x)} className='btn btn-sm link-success'>Load</a>
-                <a onClick={this.removeRoster(x)} className='btn btn-sm link-danger'>x</a>
-              </td>
-            </tr>
-          })}
-        </table>
-        
-        {this.state.rosters.length === 0 && <div className='text-muted'>No saved rosters found.</div>}
-      </div>
+      {this.state.rosters.length > 0 && <>
+        <div className='col-12'>
+          <h5>Saved Rosters:</h5>
+        </div>
+        <div className='col-12'>
+          {this.state.rosters.length > 0 && 
+            <table style={{width: '100%', marginLeft: '20px' }}>
+              <tr>
+                <th>Roster Name</th>
+                <th>Players</th>
+                <th>Options</th>
+              </tr>
+              {this.state.rosters.map((x, idx) => {
+                return <tr key={idx}>
+                  <td>{x.name}</td>
+                  <td>{x.players.map((p, idx_) => <><span key={idx_} className={`text-${p.classCssName}`}>{p.name}</span>{idx_ < x.players.length-1 ? ',' : ''} </>)}</td>
+                  <td>
+                    <a onClick={this.loadRoster(x)} className='btn btn-sm link-success'>Load</a>
+                    <a onClick={this.removeRoster(x)} className='btn btn-sm link-danger'>x</a>
+                  </td>
+                </tr>
+              })}
+            </table>
+          }
+          
+          {this.state.rosters.length === 0 && <div className='text-muted'>No saved rosters found.</div>}
+        </div>
+      </>}
+
       {this.props.players.length > 0 && <>
         <div className='col-12'>
           <h5>Save Current Roster:</h5>
@@ -103,9 +108,15 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
           <input value={this.state.rosterSaveName} onChange={this.handleInputChange('rosterSaveName')} placeholder='Name' className='form-control' />
         </div>
         <div className='col-4'>
-          {this.state.rosterSaveName && <button onClick={this.saveCurrentRoster} className='btn btn-success'>Save</button>}
+          {this.state.rosterSaveName && <button onClick={this.saveCurrentRoster} className='btn link-success'>Save</button>}
         </div>
       </>}
+
+      {this.state.rosters.length == 0 && this.props.players.length == 0 &&
+        <div className='col-12'>
+          <p>To get started loading &amp; saving rosters, add a player to the roster!</p>
+        </div>
+      }
       
     </div>
   }
