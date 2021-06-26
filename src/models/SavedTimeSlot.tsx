@@ -21,7 +21,7 @@ class SavedTimeSlot {
     timeSlot.setId(this.id);  
     if(players != null){
       this.spells.forEach(x => {
-        let spell = players.find(p => p.name === x.playerName)?.cooldowns.find(cd => cd.spellId == x.spellId);
+        let spell = players.find(p => p.name === x.playerName)?.cooldowns.find(cd => cd.spellId === x.spellId);
         if(spell != null) {
           timeSlot.addSpell(spell);
         }

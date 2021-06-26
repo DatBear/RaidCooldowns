@@ -43,8 +43,8 @@ class TimeSlotTableComponent extends BaseComponent<TimeSlotTableProps, TimeSlotT
             {this.state.canRemove && <td>-</td>}
             <th>Time</th>
             <th>Ability</th>
-            {this.props.players.filter(x => x.wowSpec.isHealer).map(x => {
-              return <th key={x.name} className={`player-th text-${x.wowClass.cssName}`}>{x.name}</th>
+            {this.props.players.filter(x => x.wowSpec.isHealer).map((x, idx) => {
+              return <th key={idx} className={`player-th text-${x.wowClass.cssName}`}>{x.name}</th>
             })}
             <th>Non-Healing</th>
             <th>+</th>

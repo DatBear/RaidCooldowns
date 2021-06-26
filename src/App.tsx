@@ -23,7 +23,8 @@ type AppState = {
 class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
-    let nzothTimeSlots = [
+    console.log(window.location);
+    let defaultTimeSlots = [
       new TimeSlot('Torment #1', '00:25').setId(),
       new TimeSlot('Torment #2', '00:55').setId(),
       new TimeSlot('Mindgate #1', '01:00').setId(),
@@ -48,14 +49,13 @@ class App extends Component<AppProps, AppState> {
       // new TimeSlot('Anguish #8', '12:05').setId(),
     ].sort((a, b) => a.time - b.time);
 
-    console.log();
-    let json = JSON.stringify(nzothTimeSlots);
-    let deserialized = plainToClass(TimeSlot, JSON.parse(json));
-    console.log('deserialized', deserialized);
+    if(window.location.href.indexOf('localhost') === -1){
+      defaultTimeSlots = [];//clear default time slots when not testing
+    }
 
     this.state = {
       players: [],
-      timeSlots: [...deserialized],
+      timeSlots: [...defaultTimeSlots],
     };
     console.log(WowClasses);
     this.addPlayer = this.addPlayer.bind(this);
@@ -83,7 +83,7 @@ class App extends Component<AppProps, AppState> {
 
   removeTimeSlot(timeSlot: TimeSlot) {
     console.log('time slot: ', timeSlot);
-    this.setState({ timeSlots: this.state.timeSlots.filter(x => x.id != timeSlot.id) });
+    this.setState({ timeSlots: this.state.timeSlots.filter(x => x.id !== timeSlot.id) });
   }
 
   selectSpell(spell?: WowSpell) {
