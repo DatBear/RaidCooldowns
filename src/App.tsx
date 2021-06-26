@@ -112,10 +112,10 @@ class App extends Component<AppProps, AppState> {
       <div className="container-fluid">
         <div className='row'>
           <div className='col-12'>
-          <button type="button" className="btn btn-sm btn-success" data-toggle="modal" data-target="#loadSaveModal">
+          <button type="button" className="btn btn-sm link-success" data-toggle="modal" data-target="#loadSaveModal">
             Load/Save
           </button>
-          <button type='button' className='btn btn-sm btn-success' data-toggle='modal' data-target='#exportNoteModal'>
+          <button type='button' className='btn btn-sm link-success' data-toggle='modal' data-target='#exportNoteModal'>
             Export To Note
           </button>
           </div>

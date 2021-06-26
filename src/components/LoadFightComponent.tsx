@@ -84,17 +84,25 @@ class LoadFightComponent extends BaseComponent<LoadFightProps, LoadFightState> {
         <h5>Saved Fights:</h5>
       </div>
       <div className='col-12'>
-        {this.state.fights.map(x => {
-          let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
-          return <div key={x.name} className='row saved-fight'>
-            <div className='col-3'>{x.name}</div>
-            <div className='col-6'>{x.players.map(p => <span key={p.name} className={`text-${p.classCssName}`}>{p.name},</span>)}{x.timeSlots.length} timings, {timeRange}</div>
-            <div className='col-3 btn-group'>
-              <button onClick={this.loadFight(x)} className='btn btn-sm btn-success'>Load</button>
-              <button onClick={this.removeFight(x)} className='btn btn-sm btn-danger'>x</button>
-            </div>
-          </div>
-        })}
+        <table style={{width: '100%', marginLeft: '20px' }}>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Options</th>
+          </tr>
+          {this.state.fights.map(x => {
+            let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
+            return <tr key={x.name} className='saved-fight'>
+              <td>{x.name}</td>
+              <td>{x.players.map(p => <span key={p.name} className={`text-${p.classCssName}`}>{p.name},</span>)}{x.timeSlots.length} timings, {timeRange}</td>
+              <td>
+                <button onClick={this.loadFight(x)} className='btn btn-sm link-success'>Load</button>
+                <button onClick={this.removeFight(x)} className='btn btn-sm link-danger'>x</button>
+              </td>
+            </tr>
+          })}
+        </table>
+        
       </div>
       <div className='col-12'>
         <h5>Save Current Fight:</h5>

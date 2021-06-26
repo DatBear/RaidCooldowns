@@ -407,10 +407,36 @@ warrior
   filter: grayscale(100%);
 }
 
-tr th{
+table.center-headers tr th{
   text-align: center;
 }
 
 .slot-remove{
   background-color: rgb(220, 53, 69);
+  cursor: pointer;
+}
+
+.link-success, .link-success:hover {
+  color: rgb(40, 167, 69);
+}
+
+.link-danger, .link-danger:hover {
+  color:  rgb(220, 53, 69);
+}
+
+.btn.link-success:hover {
+  filter: brightness(130%);
+}
+
+.btn.link-danger:hover {
+  filter: brightness(130%);
+}
+
+.loadtype-buttons {
+  float:right;
+}
+
+.notetype-buttons {
+  display: inline-block;
+  margin-left:15px;
 }

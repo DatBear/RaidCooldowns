@@ -40,7 +40,7 @@ class TimeSlotTableComponent extends BaseComponent<TimeSlotTableProps, TimeSlotT
       <table className='table table-bordered table-dark table-sm' style={{display: 'inline-block'}}>
         <thead>
           <tr>
-            {this.state.canRemove && <td>-</td>}
+            {this.state.canRemove && <th>-</th>}
             <th>Time</th>
             <th>Ability</th>
             {this.props.players.filter(x => x.wowSpec.isHealer).map((x, idx) => {

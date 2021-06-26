@@ -44,7 +44,7 @@ class AddTimeSlotComponent extends BaseComponent<AddTimeSlotProps, AddTimeSlotSt
     return <div className='form-inline'>
       <input type='text' placeholder='Time' className='timeslot-time form-control form-control-sm' value={this.state.formattedTime} onChange={this.handleInputChange('formattedTime')} onBlur={this.handleTimeChange()} />
       <input type='text' placeholder='Name' className='timeslot-name form-control form-control-sm' value={this.state.name} onChange={this.handleInputChange('name')} />
-      <button onClick={this.addTimeSlot} className='btn btn-sm btn-success'>+</button>
+      <button onClick={this.addTimeSlot} className='btn btn-sm link-success'>+</button>
     </div>
   }
 }

@@ -113,7 +113,7 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
           </> : '' }
       </div>
       <div className='col-12'>
-        {currentSpec && <div><button onClick={e => this.addPlayer()} className='btn btn-sm btn-success'>Add Player</button></div>}
+        {currentSpec && <div><button onClick={e => this.addPlayer()} className='btn btn-sm link-success'>Add Player</button></div>}
       </div>
       
     </div>

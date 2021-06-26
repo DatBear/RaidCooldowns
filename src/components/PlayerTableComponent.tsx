@@ -48,7 +48,7 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
   render() {
     return <div className='player-container'>
       Players: <br/>
-      <table>
+      <table className='center-headers'>
         <thead>
           <tr>
             <th>Name</th>

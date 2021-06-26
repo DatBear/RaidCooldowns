@@ -35,7 +35,7 @@ class ExportNoteComponent extends BaseComponent<ExportNoteProps, ExportNoteState
 
   render(){
     return <div className="modal fade modal-dark" id="exportNoteModal" aria-hidden="true">
-    <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-dialog modal-dialog-centered modal-lg">
       <div className="modal-content">
         <div className="modal-header">
           <h5 className="modal-title">
@@ -48,10 +48,12 @@ class ExportNoteComponent extends BaseComponent<ExportNoteProps, ExportNoteState
         <div className="modal-body">
           <div className='container-fluid'>
             <div className='row'>
-              Addon Format:
-              <div className='btn-group loadtype-buttons'>
-                <button className={`btn btn-sm btn-${this.state.addon === NoteAddon.AngryAssignments ? 'success' : 'danger'}`} onClick={() => this.export(NoteAddon.AngryAssignments)}>AA</button>
-                <button className={`btn btn-sm btn-${this.state.addon === NoteAddon.ExorsusRaidTools ? 'success' : 'danger'}`} onClick={() => this.export(NoteAddon.ExorsusRaidTools)}>ERT</button>
+              <div className='col-12'>
+                Addon Format:
+                <div className='btn-group notetype-buttons'>
+                  <button className={`btn btn-sm link-${this.state.addon === NoteAddon.AngryAssignments ? 'success' : 'danger'}`} onClick={() => this.export(NoteAddon.AngryAssignments)}>AA</button>
+                  <button className={`btn btn-sm link-${this.state.addon === NoteAddon.ExorsusRaidTools ? 'success' : 'danger'}`} onClick={() => this.export(NoteAddon.ExorsusRaidTools)}>ERT</button>
+                </div>
               </div>
             </div>
             <div className='row'>
