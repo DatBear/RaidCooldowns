@@ -87,9 +87,8 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
     var currentTalents = currentSpec?.talents;
     //console.log('rendering class: ', currentClass?.name, 'spec: ', currentSpec?.name);
     return <div className='row add-player'>
-      <div className='col-12'>Add Player:</div>
       <div className='col-12 col-md-4'>
-        <input type='text' value={this.state.name} onChange={this.handleInputChange('name')} placeholder='Name' className='player-name form-control form-control-sm' />
+        <input type='text' value={this.state.name} onChange={this.handleInputChange('name')} placeholder='Player Name' className='player-name form-control form-control-sm' />
       </div>
       
       <div className='col-12 specs'>
