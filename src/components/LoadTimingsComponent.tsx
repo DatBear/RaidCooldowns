@@ -2,9 +2,7 @@ import BaseComponent from "./BaseComponent";
 import React from "react";
 import TimeSlot from "../models/TimeSlot";
 import SavedTimings from "../models/SavedTimings";
-import { plainToClass } from "class-transformer";
 import SavedTimeSlot from "../models/SavedTimeSlot";
-import SavedPlayer from "../models/SavedPlayer";
 
 type LoadTimingsProps = {
   timeSlots: TimeSlot[];

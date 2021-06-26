@@ -23,7 +23,6 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
   selectSpell(spell: WowSpell) {
     return () => {
       WowSpell.equals(this.props.selectedSpell, spell) ?  this.props.selectSpell(undefined) : this.props.selectSpell(spell);
-      //this.props.selectedSpell?.spellId === spell?.spellId ? this.props.selectSpell(undefined) : this.props.selectSpell(spell);
     };
   }
 

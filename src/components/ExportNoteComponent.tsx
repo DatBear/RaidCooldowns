@@ -3,7 +3,6 @@ import BaseComponent from "./BaseComponent";
 import React from "react";
 import TimeSlot from "../models/TimeSlot";
 import NoteAddon from "../models/NoteAddon";
-import LoadSaveComponent from "./LoadSaveComponent";
 
 type ExportNoteProps = {
   players: WowPlayer[];
@@ -25,7 +24,6 @@ class ExportNoteComponent extends BaseComponent<ExportNoteProps, ExportNoteState
     }
 
     this.export = this.export.bind(this);
-    this.export(this.state.addon);
   }
   
   export(addon: NoteAddon) {
@@ -58,7 +56,7 @@ class ExportNoteComponent extends BaseComponent<ExportNoteProps, ExportNoteState
             </div>
             <div className='row'>
               <div className='col-12'>
-                <textarea className='note-area' value={this.state.note} />
+                <textarea className='note-area' value={this.state.note} readOnly />
               </div>
             </div>
           </div>

@@ -2,7 +2,6 @@ import BaseComponent from "./BaseComponent";
 import { WowPlayer } from "../WowData";
 import SavedFight from "../models/SavedFight";
 import TimeSlot from "../models/TimeSlot";
-import { plainToClass } from "class-transformer";
 import React from "react";
 import SavedTimeSlot from "../models/SavedTimeSlot";
 import SavedPlayer from "../models/SavedPlayer";

@@ -12,16 +12,23 @@ type TimeSlotTableProps = {
   selectSpell: (spell?: WowSpell) => void;
   updateParents: () => void;
   reSort: () => void;
+  removeTimeSlot: (timeSlot: TimeSlot) => void;
 };
 
 type TimeSlotTableState = {
-
+  canRemove: boolean;
 };
 
 class TimeSlotTableComponent extends BaseComponent<TimeSlotTableProps, TimeSlotTableState> {
   constructor(props: TimeSlotTableProps) {
     super(props);
-    this.state = {};
+    this.state = {
+      canRemove: true
+    };
+  }
+
+  toggleCanRemove() {
+    this.setState({ canRemove: !this.state.canRemove });
   }
 
   updateParents(){
@@ -33,6 +40,7 @@ class TimeSlotTableComponent extends BaseComponent<TimeSlotTableProps, TimeSlotT
       <table className='table table-bordered table-dark table-sm' style={{display: 'inline-block'}}>
         <thead>
           <tr>
+            {this.state.canRemove && <td>-</td>}
             <th>Time</th>
             <th>Ability</th>
             {this.props.players.filter(x => x.wowSpec.isHealer).map(x => {
@@ -52,8 +60,8 @@ class TimeSlotTableComponent extends BaseComponent<TimeSlotTableProps, TimeSlotT
               var minAfter = Math.min(...spellTimings.filter(t => t > x.time));
               usable = x.time >= maxBefore + spell.cd && x.time + spell.cd <= minAfter && x.spells.every(x => x.player?.id !== spell.player?.id || x.spellId !== spell.spellId);
             }
-            return <TimeSlotComponent key={x.id} timeSlot={x} selectedSpell={this.props.selectedSpell} selectedSpellUsable={usable} selectSpell={this.props.selectSpell}
-            players={this.props.players} updateParents={this.forceUpdate.bind(this)} reSort={this.props.reSort} />
+            return <TimeSlotComponent key={x.id} canRemove={this.state.canRemove} timeSlot={x} selectedSpell={this.props.selectedSpell} selectedSpellUsable={usable} selectSpell={this.props.selectSpell}
+              players={this.props.players} updateParents={this.forceUpdate.bind(this)} reSort={this.props.reSort} removeSlot={this.props.removeTimeSlot} />
           })}
         </tbody>
       </table>

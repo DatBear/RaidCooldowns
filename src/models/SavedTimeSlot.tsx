@@ -1,6 +1,6 @@
 import SavedWowSpell from "./SavedWowSpell";
 import TimeSlot from "./TimeSlot";
-import { WowPlayer, WowSpell } from "../WowData";
+import { WowPlayer } from "../WowData";
 
 class SavedTimeSlot {
   id: number = 0;

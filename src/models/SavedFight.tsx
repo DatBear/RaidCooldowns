@@ -1,5 +1,3 @@
-import TimeSlot from "./TimeSlot";
-import { WowPlayer } from "../WowData";
 import SavedTimeSlot from "./SavedTimeSlot";
 import SavedPlayer from "./SavedPlayer";
 import { plainToClass } from "class-transformer";

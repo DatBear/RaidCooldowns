@@ -86,23 +86,23 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
     var currentSpec = currentClass?.specs.find(x => x.name === this.state.selectedSpec);
     var currentTalents = currentSpec?.talents;
     //console.log('rendering class: ', currentClass?.name, 'spec: ', currentSpec?.name);
-    return <div className='row'>
+    return <div className='row add-player'>
       <div className='col-12'>Add Player:</div>
-      <div className='col-4 col-sm-2'>
+      <div className='col-12 col-md-4'>
         <input type='text' value={this.state.name} onChange={this.handleInputChange('name')} placeholder='Name' className='player-name form-control form-control-sm' />
       </div>
       
-      <div className='col-12'>
+      <div className='col-12 specs'>
         {this.state.name && WowClasses.map((cls, idx) => {
           return cls.specs.map((spec, idx) => {
-            let enabled = cls.name == currentClass?.name && spec.name == currentSpec?.name;
+            let enabled = cls.name === currentClass?.name && spec.name === currentSpec?.name;
             let className = `spec-icon ${enabled ? 'enabled' : 'disabled'}`;
             return <span key={idx} className={className} style={{backgroundPositionX: `${-36 * spec.specId}px`}} onClick={this.selectSpec(cls.name, spec.name)}></span>
           });
         })}
       </div>
 
-      <div className='col-12'>
+      <div className='col-12 talents'>
         {currentTalents && currentTalents.length > 0 ?
           <>
             {currentTalents.map(x => {

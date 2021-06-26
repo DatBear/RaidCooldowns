@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import WowClasses, { WowPlayer, WowSpell } from './WowData';
 import TimeSlot from './models/TimeSlot';
 import AddPlayerComponent from './components/AddPlayerComponent';
-import PlayerListComponent from './components/PlayerListComponent';
 import PlayerTableComponent from './components/PlayerTableComponent';
 import AddTimeSlotComponent from './components/AddTimeSlotComponent';
 import './App.css';
@@ -61,6 +60,7 @@ class App extends Component<AppProps, AppState> {
     console.log(WowClasses);
     this.addPlayer = this.addPlayer.bind(this);
     this.addTimeSlot = this.addTimeSlot.bind(this);
+    this.removeTimeSlot = this.removeTimeSlot.bind(this);
 
     this.selectSpell = this.selectSpell.bind(this);
     this.reSort = this.reSort.bind(this);
@@ -79,6 +79,11 @@ class App extends Component<AppProps, AppState> {
   addTimeSlot(timeSlot: TimeSlot) {
     if (timeSlot.id === 0) timeSlot.setId();
     this.setState({ timeSlots: [...this.state.timeSlots, timeSlot].sort((a, b) => a.time - b.time) });
+  }
+
+  removeTimeSlot(timeSlot: TimeSlot) {
+    console.log('time slot: ', timeSlot);
+    this.setState({ timeSlots: this.state.timeSlots.filter(x => x.id != timeSlot.id) });
   }
 
   selectSpell(spell?: WowSpell) {
@@ -117,7 +122,7 @@ class App extends Component<AppProps, AppState> {
           <div className='col-6'>
             <div className='row'>
               <div className='col-12'>
-                <TimeSlotTableComponent timeSlots={this.state.timeSlots} players={this.state.players} selectedSpell={this.state.selectedSpell} selectSpell={this.selectSpell} updateParents={this.forceUpdate.bind(this)} reSort={this.reSort}  />
+                <TimeSlotTableComponent timeSlots={this.state.timeSlots} players={this.state.players} selectedSpell={this.state.selectedSpell} selectSpell={this.selectSpell} updateParents={this.forceUpdate.bind(this)} reSort={this.reSort} removeTimeSlot={this.removeTimeSlot}  />
               </div>
               <div className='col-12'>
                 <AddTimeSlotComponent addTimeSlot={this.addTimeSlot} />

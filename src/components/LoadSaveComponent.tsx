@@ -1,10 +1,7 @@
 import BaseComponent from "./BaseComponent";
 import LoadRosterComponent from './LoadRosterComponent';
 import React from "react";
-import { WowPlayer, WowClass, WowSpec } from "../WowData";
-import { plainToClass } from "class-transformer";
-import SavedRoster from "../models/SavedRoster";
-import SavedPlayer from "../models/SavedPlayer";
+import { WowPlayer } from "../WowData";
 import TimeSlot from "../models/TimeSlot";
 import LoadTimingsComponent from "./LoadTimingsComponent";
 import LoadFightComponent from "./LoadFightComponent";
@@ -54,9 +51,9 @@ class LoadSaveComponent extends BaseComponent<LoadSaveProps, LoadSaveState>{
           </div>
           <div className="modal-body">
             <div className='container-fluid'>
-              {this.state.activeLoadType == LoadType.Roster && <LoadRosterComponent players={this.props.players} loadPlayers={this.props.loadPlayers} />}
-              {this.state.activeLoadType == LoadType.Timings && <LoadTimingsComponent timeSlots={this.props.timeSlots} loadTimeSlots={this.props.loadTimeSlots} />}
-              {this.state.activeLoadType == LoadType.Fight && <LoadFightComponent players={this.props.players} loadPlayers={this.props.loadPlayers} timeSlots={this.props.timeSlots} loadTimeSlots={this.props.loadTimeSlots} />}
+              {this.state.activeLoadType === LoadType.Roster && <LoadRosterComponent players={this.props.players} loadPlayers={this.props.loadPlayers} />}
+              {this.state.activeLoadType === LoadType.Timings && <LoadTimingsComponent timeSlots={this.props.timeSlots} loadTimeSlots={this.props.loadTimeSlots} />}
+              {this.state.activeLoadType === LoadType.Fight && <LoadFightComponent players={this.props.players} loadPlayers={this.props.loadPlayers} timeSlots={this.props.timeSlots} loadTimeSlots={this.props.loadTimeSlots} />}
             </div>
           </div>
           <div className="modal-footer">

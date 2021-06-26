@@ -4,6 +4,7 @@ import TimeSlot from '../models/TimeSlot';
 import { WowSpell, WowPlayer } from '../WowData';
 
 type TimeSlotProps = {
+  canRemove: boolean;
   timeSlot: TimeSlot;
   players: WowPlayer[];
   selectedSpell?: WowSpell;
@@ -11,6 +12,7 @@ type TimeSlotProps = {
   selectSpell: (spell?: WowSpell) => void;
   updateParents: () => void;
   reSort: () => void;
+  removeSlot: (slot: TimeSlot) => void;
 };
 
 type TimeSlotState = {
@@ -52,6 +54,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
       }
     });
   }
+
   toggleNameEdit() {
     this.setState({ isEditingName: !this.state.isEditingName }, () => {
       if(this.state.isEditingName){
@@ -102,6 +105,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
 
   render() {
     return <tr>
+      {this.props.canRemove && <td className='slot-remove' onClick={() => this.props.removeSlot(this.props.timeSlot)}>-</td>}
       <td>{this.state.isEditingTime ? 
         <input className='timeslot-time' ref={this.timeInput} defaultValue={this.state.formattedTime} onBlur={this.handleTimeChange()}></input> : 
         <span onClick={this.toggleTimeEdit}>{this.props.timeSlot.formattedTime}</span>}
@@ -115,7 +119,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
         var spells = this.props.timeSlot.spells.filter(x => x.player?.column === idx && x.isHeal);
         var spellNames = spells.map(x => x.name).join('+');
         return <td key={idx}>
-          <a className={`text-${player?.wowClass.cssName}`} onClick={this.selectSpell(spells.find(x => x !== undefined))}>{spellNames}</a>
+          <span className={`text-${player?.wowClass.cssName}`} onClick={this.selectSpell(spells.find(x => x !== undefined))}>{spellNames}</span>
         </td>;
       })}
       <td>

@@ -75,10 +75,10 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
         <h5>Saved Rosters:</h5>
       </div>
       <div className='col-12'>
-        {this.state.rosters.map(x => {
-          return <div key={x.name} className='row'>
+        {this.state.rosters.map((x, idx) => {
+          return <div key={idx} className='row'>
             <div className='col-3'>{x.name}</div>
-            <div className='col-5'>{x.players.map(p => <span key={p.name} className={`text-${p.classCssName}`}>{p.name},</span>)}</div>
+            <div className='col-5'>{x.players.map((p, idx_) => <span key={idx_} className={`text-${p.classCssName}`}>{p.name},</span>)}</div>
             <div className='col-4'>
               <button onClick={this.loadRoster(x)} className='btn btn-sm btn-success'>Load</button>
               <button onClick={this.removeRoster(x)} className='btn btn-sm btn-danger'>x</button>

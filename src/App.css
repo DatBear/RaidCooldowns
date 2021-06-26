@@ -36,8 +36,6 @@ button{
   background-color: #333333;
 }
 
-
-
 .class {
   padding: 4px 10px;
   margin: 5px;
@@ -62,8 +60,20 @@ button{
 }
 
 .add-player {
-  background-color: green;
   padding: 5px 10px;
+}
+
+.add-player .specs{
+  margin: 15px auto auto auto;
+}
+
+.add-player .talents {
+  margin: auto auto 15px 15px;
+}
+
+.add-player .spell-icon{
+  margin: 5px;
+  display: inline-block;
 }
 
 .class.selected{
@@ -399,4 +409,8 @@ warrior
 
 tr th{
   text-align: center;
+}
+
+.slot-remove{
+  background-color: rgb(220, 53, 69);
 }
