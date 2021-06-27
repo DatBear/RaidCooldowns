@@ -411,8 +411,15 @@ table.center-headers tr th{
   text-align: center;
 }
 
+table.vertical-center tr td {
+  vertical-align: middle;
+}
+
+.table-timeslots {
+  display: inline-block;
+}
+
 .slot-remove{
-  background-color: rgb(220, 53, 69);
   cursor: pointer;
 }
 
@@ -432,6 +439,10 @@ table.center-headers tr th{
   filter: brightness(130%);
 }
 
+.link-success:focus, .link-danger:focus {
+  box-shadow: none;
+}
+
 .loadtype-buttons {
   float:right;
 }
@@ -439,4 +450,13 @@ table.center-headers tr th{
 .notetype-buttons {
   display: inline-block;
   margin-left:15px;
+}
+
+
+.o-unoptimized {
+  background-color: rgba(220, 0, 0, .3);
+}
+
+.o-optimized {
+  background-color: rgba(0,220,0,.3);
 }

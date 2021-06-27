@@ -105,7 +105,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
 
   render() {
     return <tr>
-      {this.props.canRemove && <td className='slot-remove' onClick={() => this.props.removeSlot(this.props.timeSlot)}>-</td>}
+      {this.props.canRemove && <td className='slot-remove' onClick={() => this.props.removeSlot(this.props.timeSlot)}><a className='link-danger'>x</a></td>}
       <td>{this.state.isEditingTime ? 
         <input className='timeslot-time' ref={this.timeInput} defaultValue={this.state.formattedTime} onBlur={this.handleTimeChange()}></input> : 
         <span onClick={this.toggleTimeEdit}>{this.props.timeSlot.formattedTime}</span>}

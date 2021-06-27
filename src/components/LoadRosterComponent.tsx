@@ -78,21 +78,26 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
         <div className='col-12'>
           {this.state.rosters.length > 0 && 
             <table style={{width: '100%', marginLeft: '20px' }}>
-              <tr>
-                <th>Roster Name</th>
-                <th>Players</th>
-                <th>Options</th>
-              </tr>
-              {this.state.rosters.map((x, idx) => {
-                return <tr key={idx}>
-                  <td>{x.name}</td>
-                  <td>{x.players.map((p, idx_) => <><span key={idx_} className={`text-${p.classCssName}`}>{p.name}</span>{idx_ < x.players.length-1 ? ',' : ''} </>)}</td>
-                  <td>
-                    <a onClick={this.loadRoster(x)} className='btn btn-sm link-success'>Load</a>
-                    <a onClick={this.removeRoster(x)} className='btn btn-sm link-danger'>x</a>
-                  </td>
+              <thead>
+                <tr>
+                  <th>Roster Name</th>
+                  <th>Players</th>
+                  <th>Options</th>
                 </tr>
-              })}
+              </thead>
+              <tbody>
+                {this.state.rosters.map((x, idx) => {
+                  return <tr key={idx}>
+                    <td>{x.name}</td>
+                    <td>{x.players.map((p, idx_) => <span key={idx_}><span className={`text-${p.classCssName}`}>{p.name}</span>{idx_ < x.players.length-1 ? ',' : ''} </span>)}</td>
+                    <td>
+                      <a onClick={this.loadRoster(x)} className='btn btn-sm link-success'>Load</a>
+                      <a onClick={this.removeRoster(x)} className='btn btn-sm link-danger'>x</a>
+                    </td>
+                  </tr>
+                })}
+              </tbody>
+              
             </table>
           }
           
@@ -112,7 +117,7 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
         </div>
       </>}
 
-      {this.state.rosters.length == 0 && this.props.players.length == 0 &&
+      {this.state.rosters.length === 0 && this.props.players.length === 0 &&
         <div className='col-12'>
           <p>To get started loading &amp; saving rosters, add a player to the roster!</p>
         </div>

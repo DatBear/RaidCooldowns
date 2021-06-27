@@ -4,25 +4,27 @@ import TimeSlot from './models/TimeSlot';
 import AddPlayerComponent from './components/AddPlayerComponent';
 import PlayerTableComponent from './components/PlayerTableComponent';
 import AddTimeSlotComponent from './components/AddTimeSlotComponent';
-import './App.css';
 import TimeSlotTableComponent from './components/TimeSlotTableComponent';
-import { plainToClass } from "class-transformer"; 
 import LoadSaveComponent from './components/LoadSaveComponent';
 import ExportNoteComponent from './components/ExportNoteComponent';
-
+import './App.css';
 
 type AppProps = {
 };
 
 type AppState = {
+  isDebug: boolean,
   players: WowPlayer[],
   timeSlots: TimeSlot[],
   selectedSpell?: WowSpell,
+  isOptimizing: boolean,
 };
 
 class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
+    let isDebug = window.location.href.indexOf('localhost') > -1;
+
     console.log(window.location);
     let defaultTimeSlots = [
       new TimeSlot('Torment #1', '00:25').setId(),
@@ -49,14 +51,17 @@ class App extends Component<AppProps, AppState> {
       // new TimeSlot('Anguish #8', '12:05').setId(),
     ].sort((a, b) => a.time - b.time);
 
-    if(window.location.href.indexOf('localhost') === -1){
+    if(!isDebug){
       defaultTimeSlots = [];//clear default time slots when not testing
     }
 
     this.state = {
+      isDebug: isDebug,
       players: [],
       timeSlots: [...defaultTimeSlots],
+      isOptimizing: false,
     };
+
     console.log(WowClasses);
     this.addPlayer = this.addPlayer.bind(this);
     this.addTimeSlot = this.addTimeSlot.bind(this);
@@ -67,6 +72,8 @@ class App extends Component<AppProps, AppState> {
 
     this.loadPlayers = this.loadPlayers.bind(this);
     this.loadTimeSlots = this.loadTimeSlots.bind(this);
+
+    this.toggleOptimizing = this.toggleOptimizing.bind(this);
   }
 
   addPlayer(player: WowPlayer) {
@@ -82,7 +89,6 @@ class App extends Component<AppProps, AppState> {
   }
 
   removeTimeSlot(timeSlot: TimeSlot) {
-    console.log('time slot: ', timeSlot);
     this.setState({ timeSlots: this.state.timeSlots.filter(x => x.id !== timeSlot.id) });
   }
 
@@ -106,24 +112,41 @@ class App extends Component<AppProps, AppState> {
     this.setState({timeSlots: timeSlots});
   }
 
+  toggleOptimizing(){
+    this.setState({
+      isOptimizing: !this.state.isOptimizing,
+      selectedSpell: !this.state.isOptimizing ? undefined : this.state.selectedSpell,
+    })
+  }
+
   render() {
 
     return (
       <div className="container-fluid">
         <div className='row'>
-          <div className='col-12'>
-          <button type="button" className="btn btn-sm link-success" data-toggle="modal" data-target="#loadSaveModal">
-            Load/Save
-          </button>
-          <button type='button' className='btn btn-sm link-success' data-toggle='modal' data-target='#exportNoteModal'>
-            Export To Note
-          </button>
-          </div>
           <div className='col-6'>
             <div className='row'>
               <div className='col-12'>
-                <TimeSlotTableComponent timeSlots={this.state.timeSlots} players={this.state.players} selectedSpell={this.state.selectedSpell} selectSpell={this.selectSpell} updateParents={this.forceUpdate.bind(this)} reSort={this.reSort} removeTimeSlot={this.removeTimeSlot}  />
+                <button type='button' className='btn btn-sm link-success' data-toggle='modal' data-target='#loadSaveModal'>
+                  Load/Save
+                </button>
+                <button type='button' className='btn btn-sm link-success' data-toggle='modal' data-target='#exportNoteModal'>
+                  Export To Note
+                </button>
               </div>
+
+              {this.state.timeSlots.length === 0 && 
+                <div className='col-12'>
+                  <p className='text-muted font-italic'>Add a fight timing below to get started.</p>
+                </div>
+              }
+
+              {this.state.timeSlots.length > 0 && 
+                <div className='col-12'>
+                  <TimeSlotTableComponent timeSlots={this.state.timeSlots} players={this.state.players} selectedSpell={this.state.selectedSpell} selectSpell={this.selectSpell} updateParents={this.forceUpdate.bind(this)} reSort={this.reSort} removeTimeSlot={this.removeTimeSlot}  />
+                </div>
+              }
+              
               <div className='col-12'>
                 <AddTimeSlotComponent addTimeSlot={this.addTimeSlot} />
               </div>
@@ -133,8 +156,23 @@ class App extends Component<AppProps, AppState> {
           <div className='col-6'>
             <div className='row'>
               <div className='col-12'>
-                <PlayerTableComponent players={this.state.players} selectSpell={this.selectSpell} selectedSpell={this.state.selectedSpell} />
+                <button type='button' className={`btn btn-sm link-${this.state.isOptimizing ? 'success' : 'danger'}`} onClick={this.toggleOptimizing}>
+                  Optimize
+                </button>
               </div>
+              
+              {this.state.players.length === 0 && 
+                <div className='col-12'>
+                  <p className='text-muted font-italic'>Add a player below to get started.</p>
+                </div>
+              }
+              
+              {this.state.players.length > 0 && 
+                <div className='col-12'>
+                  <PlayerTableComponent players={this.state.players} selectSpell={this.selectSpell} selectedSpell={this.state.selectedSpell} timeSlots={this.state.timeSlots} isOptimizing={this.state.isOptimizing} />
+                </div>
+              }
+              
               <div className='col-12'>
                 <AddPlayerComponent addPlayer={this.addPlayer} />
               </div>
