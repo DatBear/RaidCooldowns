@@ -45,8 +45,8 @@ class App extends BaseComponent<AppProps, AppState> {
       isOptimizingTimeSlots: false,
     };
 
-    console.log(WowClasses);
     this.addPlayer = this.addPlayer.bind(this);
+    this.removePlayer = this.removePlayer.bind(this);
     this.addTimeSlot = this.addTimeSlot.bind(this);
     this.removeTimeSlot = this.removeTimeSlot.bind(this);
 
@@ -63,10 +63,13 @@ class App extends BaseComponent<AppProps, AppState> {
   }
 
   addPlayer(player: WowPlayer) {
-    console.log('app.addPlayer:', player);
     player.column = player.wowSpec.isHealer ? this.state.players.filter(x => x.wowSpec.isHealer).length : 10 + this.state.players.filter(x => !x.wowSpec.isHealer).length;
     let players = [...this.state.players, player].sort((a, b) => a.column - b.column);
     this.setState({ players });
+  }
+
+  removePlayer(player: WowPlayer) {
+    this.setState({ players: this.state.players.filter(x => x.id !== player.id ) });
   }
 
   addTimeSlot(timeSlot: TimeSlot) {
@@ -163,7 +166,6 @@ class App extends BaseComponent<AppProps, AppState> {
     let idx = allCds.findIndex(x => x.spellId == spell?.spellId && x.player?.id == spell.player?.id);
     let nextSpell = idx >= allCds.length-1 ? allCds[0] : allCds[idx+1];
     this.setState({ selectedSpell: nextSpell });
-    
   }
 
   selectPreviousPlayer() {
@@ -256,7 +258,7 @@ class App extends BaseComponent<AppProps, AppState> {
               
               {this.state.players.length > 0 && 
                 <div className='col-12'>
-                  <PlayerTableComponent players={this.state.players} selectSpell={this.selectSpell} selectedSpell={this.state.selectedSpell} timeSlots={this.state.timeSlots} isOptimizing={this.state.isOptimizingPlayers} />
+                  <PlayerTableComponent players={this.state.players} selectSpell={this.selectSpell} selectedSpell={this.state.selectedSpell} timeSlots={this.state.timeSlots} isOptimizing={this.state.isOptimizingPlayers} removePlayer={this.removePlayer} />
                 </div>
               }
               

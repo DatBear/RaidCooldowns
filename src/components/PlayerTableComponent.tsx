@@ -8,6 +8,7 @@ import { debug } from 'console';
 
 type PlayerTableProps = {
   players: WowPlayer[],
+  removePlayer: (player: WowPlayer) => void,
   timeSlots: TimeSlot[],
   selectSpell: (spell?: WowSpell) => void,
   selectedSpell?: WowSpell,
@@ -74,6 +75,7 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
             <th>Name</th>
             <th>Options</th>
             <th>Cooldowns</th>
+            <th>x</th>
           </tr>
         </thead>
         <tbody>
@@ -98,6 +100,9 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
                     <a href='#' data-wowhead={wowheadData} className={className} onClick={this.selectSpell(cd)}>{cd.name}{this.props.isOptimizing && !isSelected && opts[1] != 0 && <> [{opts[1]}]</>}</a>
                   </span>
                 })}
+              </td>
+              <td onClick={() => this.props.removePlayer(p)}>
+                <a className='link-danger'>x</a>
               </td>
             </tr>
           })}

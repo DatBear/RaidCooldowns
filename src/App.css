@@ -423,6 +423,10 @@ table.vertical-center tr td {
   cursor: pointer;
 }
 
+.link-success, .link-danger {
+  cursor: pointer;
+}
+
 .link-success, .link-success:hover {
   color: rgb(40, 167, 69);
 }
