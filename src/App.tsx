@@ -8,6 +8,9 @@ import TimeSlotTableComponent from './components/TimeSlotTableComponent';
 import LoadSaveComponent from './components/LoadSaveComponent';
 import ExportNoteComponent from './components/ExportNoteComponent';
 import './App.css';
+import SavedTimings from './models/SavedTimings';
+import BaseComponent from './components/BaseComponent';
+import SavedRoster from './models/SavedRoster';
 
 type AppProps = {
 };
@@ -17,49 +20,29 @@ type AppState = {
   players: WowPlayer[],
   timeSlots: TimeSlot[],
   selectedSpell?: WowSpell,
-  isOptimizing: boolean,
+  isOptimizingPlayers: boolean,
+  isOptimizingTimeSlots: boolean,
 };
 
-class App extends Component<AppProps, AppState> {
+class App extends BaseComponent<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     let isDebug = window.location.href.indexOf('localhost') > -1;
 
-    console.log(window.location);
-    let defaultTimeSlots = [
-      new TimeSlot('Torment #1', '00:25').setId(),
-      new TimeSlot('Torment #2', '00:55').setId(),
-      new TimeSlot('Mindgate #1', '01:00').setId(),
-      new TimeSlot('Torment #3', '01:15').setId(),
-      new TimeSlot('Torment #4', '02:05').setId(),
-      new TimeSlot('Torment #5', '03:25').setId(),
-      new TimeSlot('Torment #6', '03:50').setId(),
-      new TimeSlot('Mindgate #2', '04:00').setId(),
-      new TimeSlot('Torment #7', '04:15').setId(),
-      new TimeSlot('Torment #8', '05:05').setId(),
-      new TimeSlot('Anguish #1', '06:30').setId(),
-      new TimeSlot('Anguish #2', '06:50').setId(),
-      new TimeSlot('Anguish #3', '07:25').setId(),
-      new TimeSlot('Anguish #4', '07:45').setId(),
-      // new TimeSlot('C. Protocol #1', '09:13').setId(),
-      // new TimeSlot('C. Protocol #2', '09:29').setId(),
-      // new TimeSlot('C. Protocol #3', '09:53').setId(),
-      // new TimeSlot('C. Protocol #4', '10:20').setId(),
-      // new TimeSlot('Anguish #5', '10:50').setId(),
-      // new TimeSlot('Anguish #6', '11:10').setId(),
-      // new TimeSlot('Anguish #7', '11:45').setId(),
-      // new TimeSlot('Anguish #8', '12:05').setId(),
-    ].sort((a, b) => a.time - b.time);
+    let savedTimings = this.loadArray('savedTimings', SavedTimings) as SavedTimings[];
+    let defaultTimings = savedTimings.find(x => x.name === 'default');
+    let defaultTimeSlots = defaultTimings != null ? defaultTimings.timeSlots.map(x => x.toTimeSlot(undefined) ?? TimeSlot.default) : [];
 
-    if(!isDebug){
-      defaultTimeSlots = [];//clear default time slots when not testing
-    }
+    let savedRosters = this.loadArray('savedRosters', SavedRoster) as SavedRoster[];
+    let defaultRoster = savedRosters.find(x => x.name === 'default');
+    let defaultPlayers = defaultRoster != null ? defaultRoster.players.map(x => x.toPlayer() ?? WowPlayer.default) : [];
 
     this.state = {
       isDebug: isDebug,
-      players: [],
+      players: [...defaultPlayers],
       timeSlots: [...defaultTimeSlots],
-      isOptimizing: false,
+      isOptimizingPlayers: false,
+      isOptimizingTimeSlots: false,
     };
 
     console.log(WowClasses);
@@ -73,7 +56,8 @@ class App extends Component<AppProps, AppState> {
     this.loadPlayers = this.loadPlayers.bind(this);
     this.loadTimeSlots = this.loadTimeSlots.bind(this);
 
-    this.toggleOptimizing = this.toggleOptimizing.bind(this);
+    this.toggleOptimizingPlayers = this.toggleOptimizingPlayers.bind(this);
+    this.toggleOptimizingTimeSlots = this.toggleOptimizingTimeSlots.bind(this);
 
     this.onKeyDown = this.onKeyDown.bind(this);
   }
@@ -114,11 +98,18 @@ class App extends Component<AppProps, AppState> {
     this.setState({timeSlots: timeSlots});
   }
 
-  toggleOptimizing(){
+  toggleOptimizingPlayers(){
     this.setState({
-      isOptimizing: !this.state.isOptimizing,
-      selectedSpell: !this.state.isOptimizing ? undefined : this.state.selectedSpell,
-    })
+      isOptimizingPlayers: !this.state.isOptimizingPlayers,
+      selectedSpell: !this.state.isOptimizingPlayers ? undefined : this.state.selectedSpell,
+    });
+  }
+
+  toggleOptimizingTimeSlots() {
+    this.setState({
+      isOptimizingTimeSlots: !this.state.isOptimizingTimeSlots,
+      selectedSpell: !this.state.isOptimizingTimeSlots ? undefined : this.state.selectedSpell,
+    });
   }
 
   onKeyDown(e: KeyboardEvent){
@@ -223,6 +214,12 @@ class App extends Component<AppProps, AppState> {
                 <button type='button' className='btn btn-sm link-success' data-toggle='modal' data-target='#exportNoteModal'>
                   Export To Note
                 </button>
+
+                {this.state.isDebug && 
+                  <button type='button' className={`btn btn-sm link-${this.state.isOptimizingTimeSlots ? 'success' : 'danger'}`} onClick={this.toggleOptimizingTimeSlots}>
+                    Optimize
+                  </button>
+                }
               </div>
 
               {this.state.timeSlots.length === 0 && 
@@ -246,7 +243,7 @@ class App extends Component<AppProps, AppState> {
           <div className='col-6'>
             <div className='row'>
               <div className='col-12'>
-                <button type='button' className={`btn btn-sm link-${this.state.isOptimizing ? 'success' : 'danger'}`} onClick={this.toggleOptimizing}>
+                <button type='button' className={`btn btn-sm link-${this.state.isOptimizingPlayers ? 'success' : 'danger'}`} onClick={this.toggleOptimizingPlayers}>
                   Optimize
                 </button>
               </div>
@@ -259,7 +256,7 @@ class App extends Component<AppProps, AppState> {
               
               {this.state.players.length > 0 && 
                 <div className='col-12'>
-                  <PlayerTableComponent players={this.state.players} selectSpell={this.selectSpell} selectedSpell={this.state.selectedSpell} timeSlots={this.state.timeSlots} isOptimizing={this.state.isOptimizing} />
+                  <PlayerTableComponent players={this.state.players} selectSpell={this.selectSpell} selectedSpell={this.state.selectedSpell} timeSlots={this.state.timeSlots} isOptimizing={this.state.isOptimizingPlayers} />
                 </div>
               }
               

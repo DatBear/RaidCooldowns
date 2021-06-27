@@ -112,7 +112,7 @@ const SpecIds = {
   HolyPaladin: 29,
   HolyPriest: 36,
   Mistweaver: 25,
-  Disc: 35,
+  Disc: 34,
   DemonHunter: 8,
   Warrior: 57,
   DeathKnight: 3,

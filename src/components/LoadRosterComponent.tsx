@@ -21,10 +21,6 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
   constructor(props: LoadRosterProps) {
     super(props);
 
-    // let rosterStorage = JSON.parse(localStorage.getItem('savedRosters') ?? '[]');
-    // let rosters = rosterStorage.map((x: any) => plainToClass(SavedRoster, x));
-    // rosters.forEach((x: SavedRoster) => x.loadChildren());
-
     let rosters = this.loadArray('savedRosters', SavedRoster);
     this.state = {
       rosterSaveName: '',
@@ -47,7 +43,6 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
     }
     this.setState({ rosters });
     this.saveArray('savedRosters', rosters);
-    // localStorage.setItem('savedRosters', JSON.stringify(rosters));
   }
 
   removeRoster(roster: SavedRoster) {
@@ -56,7 +51,6 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
       rosters = rosters.filter(x => x.name !== roster.name);
       this.setState({ rosters });
       this.saveArray('savedRosters', rosters);
-      //localStorage.setItem('savedRosters', JSON.stringify(rosters));
     });
   }
 
