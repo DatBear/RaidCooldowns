@@ -47,9 +47,7 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
   }
 
   optimizations(player: WowPlayer, spell: WowSpell) {
-    console.log('optimizing', spell.name);
     let currentUses = this.props.timeSlots.filter(ts => ts.spells.find(s => s.spellId == spell.spellId && s.player?.id == player.id)).map(x => x.time);
-    console.log(currentUses);
     let remainingTimeSlots = this.props.timeSlots
       .filter(ts => currentUses.find(x => x == ts.time) == null);//timeslot is not already used
     let availableTimes = [];

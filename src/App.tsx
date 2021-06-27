@@ -74,6 +74,8 @@ class App extends Component<AppProps, AppState> {
     this.loadTimeSlots = this.loadTimeSlots.bind(this);
 
     this.toggleOptimizing = this.toggleOptimizing.bind(this);
+
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   addPlayer(player: WowPlayer) {
@@ -117,6 +119,94 @@ class App extends Component<AppProps, AppState> {
       isOptimizing: !this.state.isOptimizing,
       selectedSpell: !this.state.isOptimizing ? undefined : this.state.selectedSpell,
     })
+  }
+
+  onKeyDown(e: KeyboardEvent){
+    if(e.target !== document.getElementsByTagName('body')[0]) return;
+    console.log('keydown', e.key);
+    switch(e.key){
+      case 'a':
+      case 'ArrowLeft':
+        this.selectPreviousSpell();
+        break;
+      case 'd':
+      case 'ArrowRight':
+        this.selectNextSpell();
+        break;
+      case 'w':
+      case 'ArrowUp':
+        this.selectPreviousPlayer();
+        break;
+      case 's':
+      case 'ArrowDown':
+        this.selectNextPlayer();
+        break;
+    }
+  }
+  
+  
+  selectPreviousSpell() {
+    if(this.state.players.length === 0) return;
+    if(this.state.selectedSpell == null) {
+      var cds = this.state.players.flatMap(x => x.cooldowns);
+      this.setState({ selectedSpell: cds[cds.length-1]});
+      return;
+    }
+
+    let spell = this.state.selectedSpell;
+    let allCds = this.state.players.flatMap(x => x.cooldowns).filter(x => x.isEnabled);
+    let idx = allCds.findIndex(x => x.spellId == spell.spellId && x.player?.id == spell.player?.id);
+    let nextSpell = idx < 1 ? allCds[allCds.length-1] : allCds[idx-1];
+    this.setState({selectedSpell: nextSpell});
+  }
+
+  selectNextSpell() {
+    if(this.state.players.length === 0) return;
+    if(this.state.selectedSpell == null) {
+      this.setState({ selectedSpell: this.state.players[0].cooldowns[0] });
+      return;
+    }
+
+    let spell = this.state.selectedSpell;
+    let allCds = this.state.players.flatMap(x => x.cooldowns).filter(x => x.isEnabled);
+    let idx = allCds.findIndex(x => x.spellId == spell?.spellId && x.player?.id == spell.player?.id);
+    let nextSpell = idx >= allCds.length-1 ? allCds[0] : allCds[idx+1];
+    this.setState({ selectedSpell: nextSpell });
+    
+  }
+
+  selectPreviousPlayer() {
+    if(this.state.players.length === 0) return;
+    if(this.state.selectedSpell == null) {
+      var player = this.state.players[this.state.players.length-1];
+      this.setState({ selectedSpell: player.cooldowns[0]});
+      return;
+    }
+    if(this.state.players.length < 2) return;
+
+    let spell = this.state.selectedSpell;
+    let playerIdx = this.state.players.findIndex(x => x.id === spell.player?.id);
+    let nextPlayer = playerIdx < 1 ? this.state.players[this.state.players.length-1] : this.state.players[playerIdx-1];
+    this.setState({ selectedSpell: nextPlayer.cooldowns[0] });
+  }
+
+  selectNextPlayer() {
+    if(this.state.players.length === 0) return;
+    if(this.state.selectedSpell == null) {
+      this.setState({ selectedSpell: this.state.players[0].cooldowns[0]});
+      return;
+    }
+    if(this.state.players.length < 2) return;
+
+    let spell = this.state.selectedSpell;
+    let playerIdx = this.state.players.findIndex(x => x.id === spell.player?.id);
+    let nextPlayer = playerIdx >= this.state.players.length-1 ? this.state.players[0] : this.state.players[playerIdx+1];
+    this.setState({ selectedSpell: nextPlayer.cooldowns[0] });
+  }
+
+  componentDidMount(){
+    console.log('app mounted');
+    document.addEventListener('keydown', this.onKeyDown);
   }
 
   render() {
