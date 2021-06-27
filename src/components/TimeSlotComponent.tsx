@@ -115,9 +115,9 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
         : <span onClick={this.toggleNameEdit}>{this.props.timeSlot.name}</span>}
       </td>
       {Array.from(Array(this.props.players.filter(x => x.wowSpec.isHealer).length)).map((_, idx) => {
-        var player = this.props.players.find(x => x.column === idx);
-        var spells = this.props.timeSlot.spells.filter(x => x.player?.column === idx && x.isHeal);
-        var spellNames = spells.map(x => x.name).join('+');
+        let player = this.props.players.find(x => x.column === idx);
+        let spells = this.props.timeSlot.spells.filter(x => x.player?.column === idx && x.isHeal);
+        let spellNames = spells.map(x => x.name).join('+');
         return <td key={idx}>
           <span className={`text-${player?.wowClass.cssName}`} onClick={this.selectSpell(spells.find(x => x !== undefined))}>{spellNames}</span>
         </td>;

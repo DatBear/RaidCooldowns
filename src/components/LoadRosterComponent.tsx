@@ -42,7 +42,7 @@ class LoadRosterComponent extends BaseComponent<LoadRosterProps, LoadRosterState
     if (savedRoster != null) {
       savedRoster.players = this.props.players.map(x => new SavedPlayer(x));
     } else {
-      var newRoster = new SavedRoster(this.state.rosterSaveName, this.props.players.map(x => new SavedPlayer(x)));
+      let newRoster = new SavedRoster(this.state.rosterSaveName, this.props.players.map(x => new SavedPlayer(x)));
       rosters.push(newRoster);
     }
     this.setState({ rosters });

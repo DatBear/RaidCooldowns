@@ -28,8 +28,8 @@ class TimeSlot {
   }
 
   setTime(formattedTime: string) {
-    var time = 0;
-    var parts = formattedTime.split(':');
+    let time = 0;
+    let parts = formattedTime.split(':');
     for (let i = parts.length; i > 0; i--) {
       let num = parseInt(parts[i - 1]);
       num = isNaN(num) ? 0 : num;

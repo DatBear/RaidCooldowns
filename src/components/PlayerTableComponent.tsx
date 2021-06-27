@@ -31,7 +31,7 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
 
   toggleTalent(player: WowPlayer, talent: WowTalent) {
     return () => {
-      var spell = player.cooldowns.find(s => s.spellId === talent.spellId);
+      let spell = player.cooldowns.find(s => s.spellId === talent.spellId);
       talent.isEnabled = !talent.isEnabled;
       if(spell != null){
         talent.apply(spell, talent.isEnabled);

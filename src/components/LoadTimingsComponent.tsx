@@ -40,7 +40,7 @@ class LoadTimingsComponent extends BaseComponent<LoadTimingsProps, LoadTimingsSt
     if (savedTimings != null) {
       savedTimings.timeSlots = this.props.timeSlots.map(x => new SavedTimeSlot(x));
     } else {
-      var newTimings = new SavedTimings(this.state.timingsSaveName, this.props.timeSlots.map(x => new SavedTimeSlot(x)));
+      let newTimings = new SavedTimings(this.state.timingsSaveName, this.props.timeSlots.map(x => new SavedTimeSlot(x)));
       timings.push(newTimings);
     }
     this.setState({ timings });

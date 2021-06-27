@@ -48,7 +48,7 @@ class LoadFightComponent extends BaseComponent<LoadFightProps, LoadFightState> {
       savedFight.players = savedPlayers;
       savedFight.timeSlots = savedTimeSlots;
     } else{
-      var newFight = new SavedFight(this.state.fightSaveName, savedPlayers, savedTimeSlots);
+      let newFight = new SavedFight(this.state.fightSaveName, savedPlayers, savedTimeSlots);
       fights.push(newFight);
     }
     this.setState({fights});

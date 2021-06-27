@@ -55,9 +55,9 @@ class TimeSlotTableComponent extends BaseComponent<TimeSlotTableProps, TimeSlotT
             let usable = false;
             if(this.props.selectedSpell != null){
               let spell = this.props.selectedSpell;
-              var spellTimings = this.props.timeSlots.filter(ts => ts.spells.find(s => s.player?.id === spell.player?.id && s.spellId === spell.spellId)).map(ts => ts.time);
-              var maxBefore = Math.max(...spellTimings.filter(t => t < x.time));
-              var minAfter = Math.min(...spellTimings.filter(t => t > x.time));
+              let spellTimings = this.props.timeSlots.filter(ts => ts.spells.find(s => s.player?.id === spell.player?.id && s.spellId === spell.spellId)).map(ts => ts.time);
+              let maxBefore = Math.max(...spellTimings.filter(t => t < x.time));
+              let minAfter = Math.min(...spellTimings.filter(t => t > x.time));
               usable = x.time >= maxBefore + spell.cd && x.time + spell.cd <= minAfter && x.spells.every(x => x.player?.id !== spell.player?.id || x.spellId !== spell.spellId);
             }
             return <TimeSlotComponent key={x.id} canRemove={this.state.canRemove} timeSlot={x} selectedSpell={this.props.selectedSpell} selectedSpellUsable={usable} selectSpell={this.props.selectSpell}

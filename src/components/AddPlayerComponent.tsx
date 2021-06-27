@@ -35,9 +35,9 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
       return;
     }
 
-    var wowClass = WowClasses.find((value: WowClass) => value.name === this.state.selectedClass);
-    var spec = wowClass?.specs.find((value: WowSpec) => value.name === this.state.selectedSpec);
-    var talents = spec?.talents.map(x => Object.assign({}, x)) ?? [];
+    let wowClass = WowClasses.find((value: WowClass) => value.name === this.state.selectedClass);
+    let spec = wowClass?.specs.find((value: WowSpec) => value.name === this.state.selectedSpec);
+    let talents = spec?.talents.map(x => Object.assign({}, x)) ?? [];
 
     if (wowClass != null && spec != null) {
       let player = new WowPlayer(this.state.name, wowClass, spec, talents)
@@ -82,9 +82,9 @@ class AddPlayerComponent extends BaseComponent<AddPlayerProps, AddPlayerState> {
   }
 
   render() {
-    var currentClass = WowClasses.find(x => x.name === this.state.selectedClass);
-    var currentSpec = currentClass?.specs.find(x => x.name === this.state.selectedSpec);
-    var currentTalents = currentSpec?.talents;
+    let currentClass = WowClasses.find(x => x.name === this.state.selectedClass);
+    let currentSpec = currentClass?.specs.find(x => x.name === this.state.selectedSpec);
+    let currentTalents = currentSpec?.talents;
     //console.log('rendering class: ', currentClass?.name, 'spec: ', currentSpec?.name);
     return <div className='row add-player'>
       <div className='col-12 col-md-4'>

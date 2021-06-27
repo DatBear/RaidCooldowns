@@ -99,7 +99,7 @@ export class WowPlayer {
       let spell = Object.assign({}, x);//clone the spell so the talent isn't applied globally.
       //console.log(x, spell);
       spell.player = player;
-      var talent = wowTalents.find(talent => talent.isEnabled && talent.spellId === x.spellId);
+      let  talent = wowTalents.find(talent => talent.isEnabled && talent.spellId === x.spellId);
       talent?.apply(spell, true);
       return spell;
     });//.filter((x: WowSpell) => x.isEnabled);
