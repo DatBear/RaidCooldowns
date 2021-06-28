@@ -73,7 +73,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
 
   handleNameChange() {
     return (x: React.FocusEvent<HTMLInputElement>) => {
-      this.props.timeSlot.name = x.target.value;
+      this.props.timeSlot.setName(x.target.value);
       this.setState({name: x.target.value, isEditingName: false})
       this.forceUpdate();
     }
@@ -81,7 +81,6 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
 
   selectSpell(spell?: WowSpell){
     return () => {
-      console.log('select spell', spell);
       WowSpell.equals(this.props.selectedSpell, spell) ?  this.props.selectSpell(undefined) : this.props.selectSpell(spell);
       this.props.updateParents();
     };
@@ -103,6 +102,10 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
     return this.props.timeSlot.spells.find(x => x.spellId === spell?.spellId && x.player?.id === spell?.player?.id);
   }
 
+  componentDidUpdate(){
+    (window as any).$WowheadPower.refreshLinks(true);
+  }
+
   render() {
     return <tr>
       {this.props.canRemove && <td className='slot-remove' onClick={() => this.props.removeSlot(this.props.timeSlot)}><a className='link-danger'>x</a></td>}
@@ -112,7 +115,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
       </td>
       <td>{this.state.isEditingName ? 
         <input className='timeslot-name' ref={this.nameInput} defaultValue={this.state.name} onBlur={this.handleNameChange()}></input>
-        : <span onClick={this.toggleNameEdit}>{this.props.timeSlot.name}</span>}
+        : <span onClick={this.toggleNameEdit} dangerouslySetInnerHTML={{__html: this.props.timeSlot.formattedName}}></span>}
       </td>
       {Array.from(Array(this.props.players.filter(x => x.wowSpec.isHealer).length)).map((_, idx) => {
         let player = this.props.players.find(x => x.column === idx);

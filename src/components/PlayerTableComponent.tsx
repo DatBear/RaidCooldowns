@@ -80,13 +80,13 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
         </thead>
         <tbody>
           {this.props.players.map((p, idx) => {
-            return <tr key={idx} className={`player-row text-${p.wowClass.cssName}`}>
+            return <tr key={p.id} className={`player-row text-${p.wowClass.cssName}`}>
               <td>{p.name}</td>
               <td>
-                {p.wowTalents.map(t => {
+                {p.wowTalents.map((t, idx_) => {
                   let wowheadData = `spell=${t.spellId}`;
                   let className = `spell-icon ${t.isEnabled ? 'enabled' : 'disabled'}`;
-                  return <a key={t.spellId} href='#' data-wowhead={wowheadData} className={className} onClick={this.toggleTalent(p, t)} data-wh-rename-link='false' data-wh-icon-size='small'></a>
+                  return <a key={idx_} href='#' data-wowhead={wowheadData} className={className} onClick={this.toggleTalent(p, t)} data-wh-rename-link='false' data-wh-icon-size='small'></a>
                 })}
               </td>
               <td>
@@ -96,9 +96,7 @@ class PlayerTableComponent extends BaseComponent<PlayerTableProps, PlayerTableSt
                   let opts = this.optimizations(p, cd);
                   let optimizationClass = this.props.isOptimizing && !isSelected ? `o-${opts[0]}` : '';
                   let className = `spell btn btn-sm ${(isSelected ? `btn-${cd.player?.wowClass.cssName} selected` : 'btn-link')} ${optimizationClass}`
-                  return <span key={idx_}>
-                    <a href='#' data-wowhead={wowheadData} className={className} onClick={this.selectSpell(cd)}>{cd.name}{this.props.isOptimizing && !isSelected && opts[1] != 0 && <> [{opts[1]}]</>}</a>
-                  </span>
+                  return <a key={idx_} href='#' data-wowhead={wowheadData} className={className} onClick={this.selectSpell(cd)}>{cd.name}{this.props.isOptimizing && !isSelected && opts[1] != 0 && <> [{opts[1]}]</>}</a>
                 })}
               </td>
               <td onClick={() => this.props.removePlayer(p)}>

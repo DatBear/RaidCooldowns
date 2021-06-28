@@ -456,11 +456,16 @@ table.vertical-center tr td {
   margin-left:15px;
 }
 
-
 .o-unoptimized {
-  background-color: rgba(220, 0, 0, .3);
+  background-color: rgba(220, 0, 0, .2);
 }
 
 .o-optimized {
-  background-color: rgba(0,220,0,.3);
+  background-color: rgba(0,220,0,.2);
+}
+
+
+
+.players-preview {
+  display: inline;
 }
