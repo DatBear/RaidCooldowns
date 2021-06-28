@@ -75,6 +75,9 @@ class LoadFightComponent extends BaseComponent<LoadFightProps, LoadFightState> {
         this.props.loadPlayers(players);
         this.props.loadTimeSlots(timeSlots);
       }
+      setTimeout(() => {
+        (window as any).$WowheadPower.refreshLinks(true);
+      }, 500);
     });
   }
 
@@ -86,22 +89,28 @@ class LoadFightComponent extends BaseComponent<LoadFightProps, LoadFightState> {
         </div>
         <div className='col-12'>
           <table style={{width: '100%', marginLeft: '20px' }}>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Options</th>
-            </tr>
-            {this.state.fights.map(x => {
-              let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
-              return <tr key={x.name} className='saved-fight'>
-                <td>{x.name}</td>
-                <td>{x.players.map(p => <span key={p.name} className={`text-${p.classCssName}`}>{p.name},</span>)}{x.timeSlots.length} timings, {timeRange}</td>
-                <td>
-                  <button onClick={this.loadFight(x)} className='btn btn-sm link-success'>Load</button>
-                  <button onClick={this.removeFight(x)} className='btn btn-sm link-danger'>x</button>
-                </td>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Options</th>
               </tr>
-            })}
+            </thead>
+            
+            <tbody>
+              {this.state.fights.map(x => {
+                let timeRange = `${x.timeSlots[0].formattedTime}-${x.timeSlots[x.timeSlots.length-1].formattedTime}`;
+                return <tr key={x.name} className='saved-fight'>
+                  <td>{x.name}</td>
+                  <td>{x.players.map(p => <span key={p.name} className={`text-${p.classCssName}`}>{p.name},</span>)}{x.timeSlots.length} timings, {timeRange}</td>
+                  <td>
+                    <button onClick={this.loadFight(x)} className='btn btn-sm link-success'>Load</button>
+                    <button onClick={this.removeFight(x)} className='btn btn-sm link-danger'>x</button>
+                  </td>
+                </tr>
+              })}
+            </tbody>
+            
           </table>
         </div>
       </>}

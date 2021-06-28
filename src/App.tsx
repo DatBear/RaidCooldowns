@@ -11,6 +11,7 @@ import './App.css';
 import SavedTimings from './models/SavedTimings';
 import BaseComponent from './components/BaseComponent';
 import SavedRoster from './models/SavedRoster';
+import ImportComponent from './components/ImportComponent';
 
 type AppProps = {
 };
@@ -63,7 +64,7 @@ class App extends BaseComponent<AppProps, AppState> {
   }
 
   addPlayer(player: WowPlayer) {
-    player.column = player.wowSpec.isHealer ? this.state.players.filter(x => x.wowSpec.isHealer).length : 10 + this.state.players.filter(x => !x.wowSpec.isHealer).length;
+    player.setColumn(this.state.players);
     let players = [...this.state.players, player].sort((a, b) => a.column - b.column);
     this.setState({ players });
   }
@@ -99,6 +100,7 @@ class App extends BaseComponent<AppProps, AppState> {
 
   loadTimeSlots(timeSlots: TimeSlot[]){
     this.setState({timeSlots: timeSlots});
+    this.forceUpdate();
   }
 
   toggleOptimizingPlayers(){
@@ -142,7 +144,7 @@ class App extends BaseComponent<AppProps, AppState> {
   selectPreviousSpell() {
     if(this.state.players.length === 0) return;
     if(this.state.selectedSpell == null) {
-      var cds = this.state.players.flatMap(x => x.cooldowns);
+      let cds = this.state.players.flatMap(x => x.cooldowns);
       this.setState({ selectedSpell: cds[cds.length-1]});
       return;
     }
@@ -171,7 +173,7 @@ class App extends BaseComponent<AppProps, AppState> {
   selectPreviousPlayer() {
     if(this.state.players.length === 0) return;
     if(this.state.selectedSpell == null) {
-      var player = this.state.players[this.state.players.length-1];
+      let player = this.state.players[this.state.players.length-1];
       this.setState({ selectedSpell: player.cooldowns[0]});
       return;
     }
@@ -215,6 +217,9 @@ class App extends BaseComponent<AppProps, AppState> {
                 </button>
                 <button type='button' className='btn btn-sm link-success' data-toggle='modal' data-target='#exportNoteModal'>
                   Export To Note
+                </button>
+                <button type='button' className='btn btn-sm link-success' data-toggle='modal' data-target='#importModal'>
+                  Import
                 </button>
 
                 {this.state.isDebug && 
@@ -274,6 +279,9 @@ class App extends BaseComponent<AppProps, AppState> {
           </div>
           <div className='col-12'>
             <ExportNoteComponent players={this.state.players} timeSlots={this.state.timeSlots} />
+          </div>
+          <div className='col-12'>
+            <ImportComponent loadPlayers={this.loadPlayers} loadTimeSlots={this.loadTimeSlots} />
           </div>
         </div>
         

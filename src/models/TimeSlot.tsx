@@ -6,17 +6,22 @@ class TimeSlot {
   private static nextId: number = 1;
   id: number;
   name: string;
-  formattedTime: string;
+  formattedName: string;
   time: number;
+  formattedTime: string;
   spells: WowSpell[];
 
   constructor(name?: string, formattedTime?: string) {
     this.id = 0;
     this.name = name ?? '';
-    this.formattedTime = '';
+    this.formattedName = '';
     this.time = 0;
+    this.formattedTime = '';
     this.spells = [];
 
+    if(name !== undefined){
+      this.setName(name);
+    }
     if(formattedTime !== undefined){
       this.setTime(formattedTime);
     }
@@ -25,6 +30,18 @@ class TimeSlot {
   setId(id?: number) {
     this.id = id ?? TimeSlot.nextId++;
     return this;
+  }
+
+  setName(name: string) {
+    this.name = name;
+    
+    let colorRegex = /\|cff([0-9a-fA-F]{6})(.*?)\|r/g;
+    let spellRegex = /\{spell:(\d+)\}/g;
+    name = name.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
+    name = name.replace(colorRegex, '<span style="color:#$1">$2</span>');
+    name = name.replace(spellRegex, '<a data-wowhead="spell=$1" data-wh-icon-size="tiny" data-wh-rename-link="false" href="#"></a>');
+    console.log(name);
+    this.formattedName = name;
   }
 
   setTime(formattedTime: string) {

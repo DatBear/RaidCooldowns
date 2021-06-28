@@ -102,7 +102,11 @@ export class WowPlayer {
       let  talent = wowTalents.find(talent => talent.isEnabled && talent.spellId === x.spellId);
       talent?.apply(spell, true);
       return spell;
-    });//.filter((x: WowSpell) => x.isEnabled);
+    });
+  }
+
+  setColumn(players: WowPlayer[]){
+    this.column = this.wowSpec.isHealer ? players.filter(x => x.wowSpec.isHealer).length : 10 + players.filter(x => !x.wowSpec.isHealer).length;
   }
 }
 
@@ -120,7 +124,7 @@ const SpecIds = {
 
 const SpellIds = {
   //druid
-  Tranquility: 157982,
+  Tranquility: 740,
   Flourish: 197721,
   TreeOfLife: 33891,
 
@@ -150,7 +154,7 @@ const SpellIds = {
   HolyWordSalvation: 265202,
   
   //dh
-  Darkness: 209426,
+  Darkness: 196718,//209426?
   //Metamorphosis: 200166,
 
   //warrior
@@ -260,20 +264,20 @@ let dkSpells = [
 let dkSpecs = [new WowSpec('Any', dkSpells, [], SpecIds.DeathKnight, false)]
 const dk = new WowClass('Death Knight', dkSpecs);
 
-//setup colors for exorsus...
+//setup colors for exorsus... - used in importing
 
-dk.hexColor = 'C41F3B';
-dh.hexColor = 'A330C9';
-druid.hexColor = 'FF7D0A';
-// hunter.hexColor = 'A9D271';
+dk.hexColor = 'c31d39';
+dh.hexColor = 'a22fc8';
+druid.hexColor = 'fe7b09';
+//hunter.hexColor = 'A9D271';
 //mage.hexColor = '40C7EB';
-monk.hexColor = '00FF96';
-paladin.hexColor = 'F58CBA';
+monk.hexColor = '00FF96';//this is wrong, update it from ert
+paladin.hexColor = 'f38bb9';
 priest.hexColor = 'FFFFFF';
 //rogue.hexColor = 'FFF569';
-shaman.hexColor = '0070DE';
+shaman.hexColor = '006fdc';
 //warlock.hexColor = '8787ED';
-warrior.hexColor = 'C79C6E';
+warrior.hexColor = 'c59a6c';
 
 const classes = [
   druid,
