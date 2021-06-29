@@ -13,11 +13,12 @@
 .spell {
   text-align: center;
   padding: 3px 7px;
-  margin: 5px;
+  margin: 0;
 }
 
 .spell.selected {
-  padding: 3px 7px;
+  padding: 1px 3px;
   border-radius: 5px;
   color: #212529;
+  vertical-align: middle;
 }

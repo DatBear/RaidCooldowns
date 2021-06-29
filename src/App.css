@@ -469,3 +469,11 @@ table.vertical-center tr td {
 .players-preview {
   display: inline;
 }
+
+.text-faded {
+  opacity: .3;
+}
+
+.pointer {
+  cursor: pointer;
+}

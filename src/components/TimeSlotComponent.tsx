@@ -1,4 +1,4 @@
-import React, { FocusEvent } from 'react';
+import React, { FocusEvent, Fragment } from 'react';
 import BaseComponent from './BaseComponent';
 import TimeSlot from '../models/TimeSlot';
 import { WowSpell, WowPlayer } from '../WowData';
@@ -107,6 +107,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
   }
 
   render() {
+    let nonHeals = this.props.timeSlot.spells.filter(x => !x.isHeal);
     return <tr>
       {this.props.canRemove && <td className='slot-remove' onClick={() => this.props.removeSlot(this.props.timeSlot)}><a className='link-danger'>x</a></td>}
       <td>{this.state.isEditingTime ? 
@@ -120,17 +121,26 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
       {Array.from(Array(this.props.players.filter(x => x.wowSpec.isHealer).length)).map((_, idx) => {
         let player = this.props.players.find(x => x.column === idx);
         let spells = this.props.timeSlot.spells.filter(x => x.player?.column === idx && x.isHeal);
-        let spellNames = spells.map(x => x.name).join('+');
-        return <td key={idx}>
-          <span className={`text-${player?.wowClass.cssName}`} onClick={this.selectSpell(spells.find(x => x !== undefined))}>{spellNames}</span>
-        </td>;
+        let canAddCurrent = this.props.selectedSpell != null && this.props.selectedSpellUsable && this.props.selectedSpell.player?.column === idx;
+        return true &&
+          <td key={idx}>
+            {spells.map((spell, idx) => {
+              let isSelected = this.props.selectedSpell?.spellId == spell.spellId && this.props.selectedSpell.player?.id == spell.player?.id;
+              let cssName = player?.wowClass.cssName;
+              let className = `${isSelected ? 'btn-'+cssName : 'text-'+cssName} pointer ${isSelected ? 'selected spell' : ''}`;
+              return <span className={className} onClick={this.selectSpell(spell)}>{spell.name}{idx < spells.length-1 ? ' + ' : ''}</span>
+            })}
+            {canAddCurrent && <span className={`text-${player?.wowClass.cssName} text-faded pointer`} onClick={this.addSelectedSpell}>{spells.length > 0 ? ' + ' : ''}{this.props.selectedSpell?.name}</span>}
+          </td>
       })}
       <td>
-        {this.props.timeSlot.spells.filter(x => !x.isHeal).map((x, idx) => {
-          return <a href='#' key={idx} className={`text-${x.player?.wowClass.cssName}`} onClick={this.selectSpell(x)}>{x.player?.name}-{x.name}</a>
+        {nonHeals.map((spell, idx) => {
+          return <Fragment key={idx}>
+            <a className={`text-${spell.player?.wowClass.cssName} pointer`} onClick={this.selectSpell(spell)}>{spell.player?.name}-{spell.name}</a>{idx < nonHeals.length-1 ? <br/> : <></>}
+          </Fragment> 
         })}
       </td>
-      {this.props.selectedSpell != null && <td onClick={this.addSelectedSpell} className={`add-button ${this.props.selectedSpellUsable ? 'usable' : 'unusable'}`}>{this.hasSelectedSpell() ? '-' : '+'}</td>}
+      {this.props.selectedSpell != null && <td onClick={this.addSelectedSpell} className={`add-button ${this.props.selectedSpellUsable ? 'usable' : 'unusable'} pointer`}>{this.hasSelectedSpell() ? '-' : '+'}</td>}
       {this.props.selectedSpell == null && <td></td>}
     </tr>
   }
