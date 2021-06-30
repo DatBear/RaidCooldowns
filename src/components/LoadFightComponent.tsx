@@ -68,9 +68,9 @@ class LoadFightComponent extends BaseComponent<LoadFightProps, LoadFightState> {
     return (() => {
       let players = fight.players.map(x => x.toPlayer() ?? WowPlayer.default);
       let timeSlots = fight.timeSlots.map(x => x.toTimeSlot(players) ?? TimeSlot.default);
-      console.log('fight load');
-      console.log(players);
-      console.log(timeSlots);
+      //console.log('fight load');
+      //console.log(players);
+      //console.log(timeSlots);
       if(players != null && players.every(x => x !== WowPlayer.default) && timeSlots != null && timeSlots.every(x => x !== TimeSlot.default)){
         this.props.loadPlayers(players);
         this.props.loadTimeSlots(timeSlots);

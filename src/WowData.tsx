@@ -167,7 +167,7 @@ const SpellIds = {
 let rdruidSpells = [
   new WowSpell('Tranq', 180, SpellIds.Tranquility),
   new WowSpell('Flourish', 90, SpellIds.Flourish, true),
-  new WowSpell('Tree', 90, SpellIds.TreeOfLife, true),
+  new WowSpell('Tree', 180, SpellIds.TreeOfLife, true),
 ];
 let rdruidTalents = [
   new WowTalent('Inner Peace', SpellIds.Tranquility, (spell, enabled) => {

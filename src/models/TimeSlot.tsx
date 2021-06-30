@@ -40,7 +40,6 @@ class TimeSlot {
     name = name.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
     name = name.replace(colorRegex, '<span style="color:#$1">$2</span>');
     name = name.replace(spellRegex, '<a data-wowhead="spell=$1" data-wh-icon-size="tiny" data-wh-rename-link="false" href="#"></a>');
-    console.log(name);
     this.formattedName = name;
   }
 
@@ -74,14 +73,12 @@ class TimeSlot {
     let cooldowns:string[] = [];
     switch(addon){
       case NoteAddon.AngryAssignments:
-        console.log('aa note');
         cooldowns = this.spells.map(s => {
           let className = s.player?.wowClass.cssName;
           let showPlayerName = (players?.filter(p => s.player != null && p.wowSpec.name === s.player.wowSpec.name).length ?? 0) > 1;
           return `|c${className}${showPlayerName ? s.player?.name + '-' : ''}${s.name}|r`;
         });
         note = `${this.formattedTime} ${this.name}: ${cooldowns.join(',')}`;
-        console.log(note);
       break;
       case NoteAddon.ExorsusRaidTools:
         cooldowns = this.spells.map(s => {

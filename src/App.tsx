@@ -12,6 +12,9 @@ import SavedTimings from './models/SavedTimings';
 import BaseComponent from './components/BaseComponent';
 import SavedRoster from './models/SavedRoster';
 import ImportComponent from './components/ImportComponent';
+import WarcraftLogsService from './services/WarcraftLogsService';
+import WarcraftLogViewerComponent from './components/WarcraftLogViewerComponent';
+import SavedFight from './models/SavedFight';
 
 type AppProps = {
 };
@@ -26,17 +29,31 @@ type AppState = {
 };
 
 class App extends BaseComponent<AppProps, AppState> {
+  wclService: WarcraftLogsService;
+
   constructor(props: AppProps) {
     super(props);
     let isDebug = window.location.href.indexOf('localhost') > -1;
 
-    let savedTimings = this.loadArray('savedTimings', SavedTimings) as SavedTimings[];
-    let defaultTimings = savedTimings.find(x => x.name === 'default');
-    let defaultTimeSlots = defaultTimings != null ? defaultTimings.timeSlots.map(x => x.toTimeSlot(undefined) ?? TimeSlot.default) : [];
+    this.wclService = new WarcraftLogsService(isDebug);
 
-    let savedRosters = this.loadArray('savedRosters', SavedRoster) as SavedRoster[];
-    let defaultRoster = savedRosters.find(x => x.name === 'default');
-    let defaultPlayers = defaultRoster != null ? defaultRoster.players.map(x => x.toPlayer() ?? WowPlayer.default) : [];
+    let defaultTimeSlots = [] as TimeSlot[];
+    let defaultPlayers = [] as WowPlayer[];
+
+    let savedFights = this.loadArray('savedFights', SavedFight) as SavedFight[];
+    let defaultFight = savedFights.find(x => x.name === 'default');
+    if(defaultFight != null){
+      defaultPlayers = defaultFight.players.map(x => x.toPlayer() ?? WowPlayer.default);
+      defaultTimeSlots = defaultFight.timeSlots.map(x => x.toTimeSlot(defaultPlayers) ?? TimeSlot.default);
+    } else {
+      let savedTimings = this.loadArray('savedTimings', SavedTimings) as SavedTimings[];
+      let defaultTimings = savedTimings.find(x => x.name === 'default');
+      defaultTimeSlots = defaultTimings != null ? defaultTimings.timeSlots.map(x => x.toTimeSlot(undefined) ?? TimeSlot.default) : [];
+  
+      let savedRosters = this.loadArray('savedRosters', SavedRoster) as SavedRoster[];
+      let defaultRoster = savedRosters.find(x => x.name === 'default');
+      defaultPlayers = defaultRoster != null ? defaultRoster.players.map(x => x.toPlayer() ?? WowPlayer.default) : [];
+    }
 
     this.state = {
       isDebug: isDebug,
@@ -119,7 +136,7 @@ class App extends BaseComponent<AppProps, AppState> {
 
   onKeyDown(e: KeyboardEvent){
     if(e.target !== document.getElementsByTagName('body')[0]) return;
-    console.log('keydown', e.key);
+    //console.log('keydown', e.key);
     switch(e.key){
       case 'a':
       case 'ArrowLeft':
@@ -272,6 +289,10 @@ class App extends BaseComponent<AppProps, AppState> {
               </div>
             </div>
             
+          </div>
+
+          <div className='col-12'>
+            <WarcraftLogViewerComponent players={this.state.players} timeSlots={this.state.timeSlots} warcraftLogsService={this.wclService} />
           </div>
 
           <div className='col-12'>

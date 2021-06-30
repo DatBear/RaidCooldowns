@@ -13,11 +13,20 @@
   --warrior: 199,156,110;
 }
 
-
 body{
   padding: 20px;
   background-color:#343a40;
   color: #F2F6F9;
+  text-shadow: 1px 1px 2px #000000;
+}
+
+input{
+  background-color: black !important;
+  color: white !important;
+}
+
+::placeholder{
+  color: #aaa !important;
 }
 
 a{
@@ -142,50 +151,62 @@ table .timeslot-name{
 
 .btn-deathknight {
   background-color: rgb(var(--deathknight));
+  text-shadow:none;
 }
 
 .btn-demonhunter {
   background-color: rgb(var(--demonhunter));
+  text-shadow:none;
 }
 
 .btn-druid {
   background-color: rgb(var(--druid));
+  text-shadow:none;
 }
 
 .btn-hunter {
   background-color: rgb(var(--hunter));
+  text-shadow:none;
 }
 
 .btn-mage {
   background-color: rgb(var(--mage));
+  text-shadow:none;
 }
 
 .btn-monk {
   background-color: rgb(var(--monk));
+  text-shadow:none;
 }
 
 .btn-paladin {
   background-color: rgb(var(--paladin));
+  text-shadow:none;
 }
 
 .btn-priest {
   background-color: rgb(var(--priest));
+  text-shadow:none;
 }
 
 .btn-rogue {
   background-color: rgb(var(--rogue));
+  text-shadow:none;
 }
 
 .btn-shaman {
   background-color: rgb(var(--shaman));
+  text-shadow:none;
 }
 
 .btn-warlock {
   background-color: rgb(var(--warlock));
+  text-shadow:none;
 }
 
 .btn-warrior {
   background-color: rgb(var(--warrior));
+  text-shadow:none;
 }
 
 
@@ -281,7 +302,6 @@ table .timeslot-name{
 
 .text-priest {
   color: rgb(var(--priest));
-  text-shadow: 1px 1px 2px #000000;
 }
 
 .text-rogue {
@@ -290,14 +310,17 @@ table .timeslot-name{
 
 .text-shaman {
   color: rgb(var(--shaman));
+  text-shadow: 1px 1px 2px #000000;
 }
 
 .text-warlock {
   color: rgb(var(--warlock));
+  text-shadow: 1px 1px 2px #000000;
 }
 
 .text-warrior {
   color: rgb(var(--warrior));
+  text-shadow: 1px 1px 2px #000000;
 }
 
 
@@ -476,4 +499,53 @@ table.vertical-center tr td {
 
 .pointer {
   cursor: pointer;
+}
+
+.cd-planned {
+  color: rgb(40, 167, 69);
+}
+
+.cd-unplanned {
+  color:  rgb(220, 53, 69);
+}
+
+
+.wcl-container {
+  margin-top: 30px;
+}
+
+.wcl-log-input {
+  width: 200px;
+}
+
+.table-wcl{
+  border-collapse: separate;
+}
+
+.wcl-boss {
+  border: 1px solid red;
+  border-collapse: separate;
+  display: inline-block;
+  padding: 5px;
+  margin: 10px 5px;
+}
+
+.wcl-boss-fight {
+  border: 1px solid red;
+  display: inline-block;
+  margin: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.wcl-boss-fight.selected{
+  background-color: #141414;
+}
+
+.fight-kill {
+  color: rgb(40, 167, 69);
+}
+
+.fight-wipe {
+  color: rgb(220, 53, 69);
 }

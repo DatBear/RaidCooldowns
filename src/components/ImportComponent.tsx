@@ -64,15 +64,15 @@ class ImportComponent extends BaseComponent<ImportProps, ImportState> {
     for(const line of splitNote) {
       let timeMatch = timeRegex.exec(line);
       let time = timeMatch != null ? timeMatch[1] : 'not found';
-      console.log(line, time);
+      //console.log(line, time);
       if(time != null) {
         let slotName = line.replace(timeRegex, '').replace(spellPlayerRegex, '');
-        console.log('slot name', slotName);
+        //console.log('slot name', slotName);
         let timeSlot = new TimeSlot(slotName);
         timeSlot.setTime(time);
         timeSlot.setId();
         timeSlots.push(timeSlot);
-        console.log('time', timeSlot.time);
+        //console.log('time', timeSlot.time);
 
         let playerMatches = line.matchAll(spellPlayerRegex);
         let match = playerMatches.next();
@@ -93,7 +93,7 @@ class ImportComponent extends BaseComponent<ImportProps, ImportState> {
             }
             
 
-            console.log('spell id', spellId);
+            //console.log('spell id', spellId);
             if(spellId != null && parseInt(spellId) != NaN){
               let spell = player.cooldowns.find(x => x.spellId.toString() === spellId);
               if(spell != null){
@@ -108,7 +108,7 @@ class ImportComponent extends BaseComponent<ImportProps, ImportState> {
     }
 
     players.sort((a, b) => (b.wowSpec.isHealer ? 1 : 0) - (a.wowSpec.isHealer ? 1 : 0))
-    players.forEach(x => console.log(x.name, x.wowSpec.name, x.wowClass.name));
+    //players.forEach(x => console.log(x.name, x.wowSpec.name, x.wowClass.name));
     this.setState({
       players: players,//players.map(x => new WowPlayer(x.name, x.wowClass, x.wowSpec, x.wowSpec.talents.map(talent => Object.assign({}, talent)))),
       timeSlots: timeSlots

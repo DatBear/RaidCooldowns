@@ -114,9 +114,10 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
         <input className='timeslot-time' ref={this.timeInput} defaultValue={this.state.formattedTime} onBlur={this.handleTimeChange()}></input> : 
         <span onClick={this.toggleTimeEdit}>{this.props.timeSlot.formattedTime}</span>}
       </td>
-      <td>{this.state.isEditingName ? 
-        <input className='timeslot-name' ref={this.nameInput} defaultValue={this.state.name} onBlur={this.handleNameChange()}></input>
-        : <span onClick={this.toggleNameEdit} dangerouslySetInnerHTML={{__html: this.props.timeSlot.formattedName}}></span>}
+      <td onClick={this.state.isEditingName ? () => null : this.toggleNameEdit}>
+        {this.state.isEditingName 
+          ? <input className='timeslot-name' ref={this.nameInput} defaultValue={this.state.name} onBlur={this.handleNameChange()}></input>
+          : <span dangerouslySetInnerHTML={{__html: this.props.timeSlot.formattedName}}></span>}
       </td>
       {Array.from(Array(this.props.players.filter(x => x.wowSpec.isHealer).length)).map((_, idx) => {
         let player = this.props.players.find(x => x.column === idx);
@@ -128,7 +129,7 @@ class TimeSlotComponent extends BaseComponent<TimeSlotProps, TimeSlotState> {
               let isSelected = this.props.selectedSpell?.spellId == spell.spellId && this.props.selectedSpell.player?.id == spell.player?.id;
               let cssName = player?.wowClass.cssName;
               let className = `${isSelected ? 'btn-'+cssName : 'text-'+cssName} pointer ${isSelected ? 'selected spell' : ''}`;
-              return <span className={className} onClick={this.selectSpell(spell)}>{spell.name}{idx < spells.length-1 ? ' + ' : ''}</span>
+              return <span key={idx} className={className} onClick={this.selectSpell(spell)}>{spell.name}{idx < spells.length-1 ? ' + ' : ''}</span>
             })}
             {canAddCurrent && <span className={`text-${player?.wowClass.cssName} text-faded pointer`} onClick={this.addSelectedSpell}>{spells.length > 0 ? ' + ' : ''}{this.props.selectedSpell?.name}</span>}
           </td>
