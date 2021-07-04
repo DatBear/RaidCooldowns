@@ -95,17 +95,17 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
   }
 
   componentDidMount() {
-    //a6qbKv2dxcT4gGQp //some random log
-    this.props.warcraftLogsService.getReportData('a6qbKv2dxcT4gGQp').then(data => {
-      console.log('wcl viewer data', data);
-      this.setState({ report: data, code: data.code, error: null });
-      return data;
-    }).then(x => {
-      (window as any).$WowheadPower.refreshLinks(true);
-    }).catch(e => {
-      this.setState({ report: undefined, code: '', error: e});
-      console.log(e);
-    });
+    // //a6qbKv2dxcT4gGQp //some random log
+    // this.props.warcraftLogsService.getReportData('a6qbKv2dxcT4gGQp').then(data => {
+    //   console.log('wcl viewer data', data);
+    //   this.setState({ report: data, code: data.code, error: null });
+    //   return data;
+    // }).then(x => {
+    //   (window as any).$WowheadPower.refreshLinks(true);
+    // }).catch(e => {
+    //   this.setState({ report: undefined, code: '', error: e});
+    //   console.log(e);
+    // });
   }
 
   groupBy = <T, K extends keyof T>(value: T[], key: K) =>
@@ -224,7 +224,7 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
 
                   return actualUses.map((ability, abilityIdx) => {
                     let abilityName = allSpells.find(x => x.spellId === ability.abilityId)?.name ?? '';
-                    return <tr className={`text-${wowClass?.cssName} text-center wcl-player`}>
+                    return <tr key={abilityIdx} className={`text-${wowClass?.cssName} text-center wcl-player`}>
                       {idx === 0 && abilityIdx === 0 && <td rowSpan={playerRowSpan} className={`wcl-player-name border-${wowClass?.cssName}`}>{p.player.name}</td>}
                       {abilityIdx === 0 && <td rowSpan={abilityRowSpan} className={`wcl-ability-name border-${wowClass?.cssName} text-center vertical-center`}>{abilityName}</td>}
                       <td className='wcl-ability-time'>{this.readableTime(ability.timestamp)}</td>

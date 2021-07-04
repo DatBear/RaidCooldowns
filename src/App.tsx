@@ -44,6 +44,7 @@ class App extends BaseComponent<AppProps, AppState> {
     let defaultFight = savedFights.find(x => x.name === 'default');
     if(defaultFight != null){
       defaultPlayers = defaultFight.players.map(x => x.toPlayer() ?? WowPlayer.default);
+      console.log('players', defaultPlayers);
       defaultTimeSlots = defaultFight.timeSlots.map(x => x.toTimeSlot(defaultPlayers) ?? TimeSlot.default);
     } else {
       let savedTimings = this.loadArray('savedTimings', SavedTimings) as SavedTimings[];

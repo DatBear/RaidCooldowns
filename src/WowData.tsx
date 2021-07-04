@@ -248,7 +248,7 @@ let havocdhSpells = [
   new WowSpell('Darkness', 180, SpellIds.Darkness, false, false)
 ];
 let dhSpecs = [new WowSpec('Havoc', havocdhSpells, [], SpecIds.DemonHunter, false)]
-const dh = new WowClass('Demon Hunter', dhSpecs);
+const dh = new WowClass('DemonHunter', dhSpecs);
 
 let warriorSpells = [
   new WowSpell('Rally', 180, SpellIds.RallyingCry, false, false)
