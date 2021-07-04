@@ -5,7 +5,7 @@ import FightPlayer from "../models/response/FightPlayer";
 import Report from "../models/response/Report";
 import TimeSlot from "../models/TimeSlot";
 import WarcraftLogsService from "../services/WarcraftLogsService";
-import { WowPlayer } from "../WowData";
+import WowClasses, { WowPlayer } from "../WowData";
 import WowBosses from "../WowBosses";
 import BaseComponent from "./BaseComponent";
 
@@ -21,6 +21,7 @@ type WarcraftLogViewerState = {
   report?: Report,
   fightId?: number,
   error?: string | null,
+  showAllCooldowns: boolean,
 };
 
 class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, WarcraftLogViewerState> {
@@ -31,12 +32,14 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
     this.state = {
       code: '',
       isEditingCode: true,
+      showAllCooldowns: false,
     };
 
     this.codeInput = React.createRef<HTMLInputElement>();
 
     this.selectFight = this.selectFight.bind(this);
     this.fightLength = this.fightLength.bind(this);
+    this.toggleShowAllCooldowns = this.toggleShowAllCooldowns.bind(this);
   }
 
   toggleCodeEdit() {
@@ -70,6 +73,10 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
     };
   }
 
+  toggleShowAllCooldowns(){
+    this.setState({ showAllCooldowns: !this.state.showAllCooldowns });
+  }
+
   selectFight(fightId: number){
     this.setState({ fightId: fightId });
   }
@@ -88,16 +95,17 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
   }
 
   componentDidMount() {
-    // this.props.warcraftLogsService.getReportData('').then(data => {
-    //   console.log('wcl viewer data', data);
-    //   this.setState({ report: data, code: data.code, error: null });
-    //   return data;
-    // }).then(x => {
-    //   (window as any).$WowheadPower.refreshLinks(true);
-    // }).catch(e => {
-    //   this.setState({ report: undefined, code: '', error: e});
-    //   console.log(e);
-    // });
+    //a6qbKv2dxcT4gGQp //some random log
+    this.props.warcraftLogsService.getReportData('a6qbKv2dxcT4gGQp').then(data => {
+      console.log('wcl viewer data', data);
+      this.setState({ report: data, code: data.code, error: null });
+      return data;
+    }).then(x => {
+      (window as any).$WowheadPower.refreshLinks(true);
+    }).catch(e => {
+      this.setState({ report: undefined, code: '', error: e});
+      console.log(e);
+    });
   }
 
   groupBy = <T, K extends keyof T>(value: T[], key: K) =>
@@ -120,7 +128,11 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
         .map(x => x?.name ?? '');
     }
     return <div className='wcl-container'>
-      Log: {this.state.isEditingCode ? <input ref={this.codeInput} defaultValue={this.state.code} onBlur={this.handleCodeChange()} className='wcl-log-input form-control form-control-sm' placeholder='Warcraftlogs Report URL' /> : <span onClick={() => this.toggleCodeEdit()}>{this.state.code}</span>} <a onClick={() => this.toggleCodeEdit()} className='link-success'>Edit</a> <a href={`https://www.warcraftlogs.com/reports/${this.state.report?.code}`}>[Link]</a> <br/>
+      Log: {this.state.isEditingCode ? <input ref={this.codeInput} defaultValue={this.state.code} onBlur={this.handleCodeChange()} className='wcl-log-input form-control form-control-sm' placeholder='Warcraftlogs Report URL' /> : <span onClick={() => this.toggleCodeEdit()}>{this.state.code} </span>} 
+      {!this.state.isEditingCode && <a onClick={() => this.toggleCodeEdit()} className='link-success' target='_new'>Edit </a> }
+      {this.state.code && <a href={`https://www.warcraftlogs.com/reports/${this.state.report?.code}`}>[Link] </a> }
+      <button className={`btn link-${this.state.showAllCooldowns ? 'success' : 'danger'}`} onClick={this.toggleShowAllCooldowns}>Show All CDs</button>
+      <br/>
       {this.state.error && 
         <div style={{marginTop: '10px'}}>
           <span className='text-danger'>{this.state.error.toString()} - check the report link and try again.</span>
@@ -135,7 +147,7 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
           })}
         </div>
       })} <br/>
-      {missingPlayers.length > 0 && 
+      {missingPlayers.length > 0 && !this.state.showAllCooldowns &&
         <div>
           <span className='text-danger'>Error - fight is missing players: {missingPlayers.join(', ')}</span>
         </div>
@@ -145,6 +157,7 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
           {fight.players.flatMap(x => x.fightEvents).length} events found
         </span>
       }
+      {/* planned cooldowns */}
       {fight && timeSlots.length > 0 && !this.props.players.every(p => missingPlayers.find(name => name === p.name) != null) &&
         <div>
           <div>
@@ -153,7 +166,7 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
                 <tr>
                   <th>Player</th>
                   <th>Ability</th>
-                  <th>Expected</th>
+                  <th>Planned</th>
                   <th>Actual</th>
                 </tr>
               </thead>
@@ -174,8 +187,8 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
                     let actualUse = actualUses != null && actualUses.length > idx ? actualUses[idx] : null;
                     let isPlanned = actualUse != null && plannedUses.find(x => Math.abs(x.time-(actualUse?.timestamp ?? 0)/1000) < threshold) != null;
                     return <tr key={idx} className={`text-${p.wowClass.cssName} text-center wcl-player`}>
-                      {cdIdx === 0 && idx === 0 && <td rowSpan={playerRowSpan} className={`wcl-player-name border-${p.wowClass.cssName}`} style={{padding: '10px'}}>{p.name}</td>}
-                      {idx === 0  && <td rowSpan={abilityRowSpan} className={`wcl-ability-name border-${p.wowClass.cssName} text-center vertical-center`} style={{padding: '10px'}}>{idx === 0 ? cd.name : ''}</td>}
+                      {cdIdx === 0 && idx === 0 && <td rowSpan={playerRowSpan} className={`wcl-player-name border-${p.wowClass.cssName}`}>{p.name}</td>}
+                      {idx === 0  && <td rowSpan={abilityRowSpan} className={`wcl-ability-name border-${p.wowClass.cssName} text-center vertical-center`}>{idx === 0 ? cd.name : ''}</td>}
                       <td>{plannedUse && <>{this.readableTime(plannedUse.time*1000)}</>}</td>
                       <td className={`cd-${isPlanned ? 'planned' : 'unplanned'}`}>{actualUse && <>{this.readableTime(actualUse.timestamp)}</>}</td>
                     </tr>
@@ -185,6 +198,42 @@ class WarcraftLogViewerComponent extends BaseComponent<WarcraftLogViewerProps, W
               </tbody>
             </table>
           </div>
+        </div>
+      }
+
+      {/* unplanned cooldowns */}
+      {fight && this.state.showAllCooldowns && 
+        <div>
+          <table className='table-wcl'>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Ability</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {fight.players.filter(x => x.fightEvents.length > 0).map((p, playerIdx) => {
+                let allSpells = WowClasses.flatMap(x => x.specs).flatMap(x => x.spells);
+                let cooldowns = p.fightEvents.map(x => x.abilityId).filter((x, idx, self) => self.indexOf(x) === idx);
+                let wowClass = WowClasses.find(x => x.name === p.player.className);
+                return cooldowns.map((abilityId, idx) => {
+                  let actualUses = p.fightEvents.filter(x => x.abilityId === abilityId);
+                  let abilityRowSpan = actualUses.length;
+                  let playerRowSpan = p.fightEvents.length;
+
+                  return actualUses.map((ability, abilityIdx) => {
+                    let abilityName = allSpells.find(x => x.spellId === ability.abilityId)?.name ?? '';
+                    return <tr className={`text-${wowClass?.cssName} text-center wcl-player`}>
+                      {idx === 0 && abilityIdx === 0 && <td rowSpan={playerRowSpan} className={`wcl-player-name border-${wowClass?.cssName}`}>{p.player.name}</td>}
+                      {abilityIdx === 0 && <td rowSpan={abilityRowSpan} className={`wcl-ability-name border-${wowClass?.cssName} text-center vertical-center`}>{abilityName}</td>}
+                      <td className='wcl-ability-time'>{this.readableTime(ability.timestamp)}</td>
+                    </tr>
+                  });
+                });
+              })}
+            </tbody>
+          </table>
         </div>
       }
     </div>

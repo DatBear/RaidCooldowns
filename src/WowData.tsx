@@ -262,7 +262,7 @@ let dkSpells = [
   new WowSpell('AMZ', 180, SpellIds.AntiMagicZone, false, false)
 ];
 let dkSpecs = [new WowSpec('Any', dkSpells, [], SpecIds.DeathKnight, false)]
-const dk = new WowClass('Death Knight', dkSpecs);
+const dk = new WowClass('DeathKnight', dkSpecs);
 
 //setup colors for exorsus... - used in importing
 

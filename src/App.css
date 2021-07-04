@@ -549,3 +549,15 @@ table.vertical-center tr td {
 .fight-wipe {
   color: rgb(220, 53, 69);
 }
+
+.wcl-player-name {
+  padding: 10px;
+}
+
+.wcl-ability-name {
+  padding: 10px;
+}
+
+.wcl-ability-time {
+  padding: 0 5px;
+}
