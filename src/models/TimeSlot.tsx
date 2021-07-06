@@ -83,10 +83,9 @@ class TimeSlot {
       case NoteAddon.ExorsusRaidTools:
         cooldowns = this.spells.map(s => {
           let classColor = s.player?.wowClass.hexColor;
-          let showPlayerName = (players?.filter(p => s.player != null && p.wowSpec.name === s.player.wowSpec.name).length ?? 0) > 1;
-          return `|cFF${classColor}${showPlayerName ? s.player?.name + '-' : ''}${s.name}|r`;
+          return `|cff${classColor}${s.player?.name}|r{spell:${s.spellId}}`;
         })
-        note = `${this.formattedTime} ${this.name}: ${cooldowns.join(',')}`;
+        note = `${this.time > 0 ? `{time:${this.formattedTime}}` : ''}${this.name ? this.name : ''}${cooldowns.join('')}`;
         break;
 
     }
